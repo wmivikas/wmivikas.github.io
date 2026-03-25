@@ -5,6 +5,8 @@ const sectionFiles = [
   "sections/06-contact.html",
 ];
 
+const assetVersion = window.__ASSET_VERSION__ || Date.now().toString();
+
 const themeStorageKey = "site-theme";
 
 function getSystemTheme() {
@@ -68,7 +70,7 @@ async function loadSections() {
 
   for (const path of sectionFiles) {
     try {
-      const res = await fetch(path);
+      const res = await fetch(`${path}?v=${assetVersion}`);
       if (!res.ok) {
         throw new Error(`Failed to load ${path}`);
       }

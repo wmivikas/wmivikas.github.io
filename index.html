@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Vikas | PhD Profile</title>
     <meta
       name="description"
@@ -15,7 +18,16 @@
       rel="stylesheet"
     />
     <meta name="color-scheme" content="light dark" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>
+      (function () {
+        const assetVersion = Date.now().toString();
+        window.__ASSET_VERSION__ = assetVersion;
+        const stylesheet = document.createElement("link");
+        stylesheet.rel = "stylesheet";
+        stylesheet.href = `assets/css/style.css?v=${assetVersion}`;
+        document.head.appendChild(stylesheet);
+      })();
+    </script>
   </head>
   <body>
     <div class="layout">
@@ -51,6 +63,13 @@
       <p>© <span id="year"></span> Vikas.</p>
     </footer>
 
-    <script src="assets/js/main.js"></script>
+    <script>
+      (function () {
+        const assetVersion = window.__ASSET_VERSION__ || Date.now().toString();
+        const mainScript = document.createElement("script");
+        mainScript.src = `assets/js/main.js?v=${assetVersion}`;
+        document.body.appendChild(mainScript);
+      })();
+    </script>
   </body>
 </html>
