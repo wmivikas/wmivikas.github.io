@@ -1,9 +1,29 @@
 :root {
   --bg: #ffffff;
+  --surface: rgba(255, 255, 255, 0.86);
   --ink: #161616;
   --muted: #555555;
   --line: #dadada;
   --link: #0057b8;
+  --bg-gradient-a: rgba(0, 87, 184, 0.09);
+  --bg-gradient-b: rgba(176, 59, 0, 0.08);
+  --bg-gradient-c1: #fcfdff;
+  --bg-gradient-c2: #f5f8fc;
+  --panel-line: rgba(218, 218, 218, 0.95);
+}
+
+html[data-theme="dark"] {
+  --bg: #0f141a;
+  --surface: rgba(18, 25, 33, 0.9);
+  --ink: #e9eef5;
+  --muted: #b7c2cf;
+  --line: #2e3947;
+  --link: #7bb8ff;
+  --bg-gradient-a: rgba(55, 145, 255, 0.2);
+  --bg-gradient-b: rgba(255, 153, 102, 0.14);
+  --bg-gradient-c1: #101720;
+  --bg-gradient-c2: #0c1219;
+  --panel-line: rgba(46, 57, 71, 0.95);
 }
 
 * {
@@ -19,9 +39,13 @@ body {
 body {
   font-family: "Source Sans 3", sans-serif;
   color: var(--ink);
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 8% 8%, var(--bg-gradient-a) 0 16%, transparent 44%),
+    radial-gradient(circle at 86% 12%, var(--bg-gradient-b) 0 12%, transparent 34%),
+    linear-gradient(180deg, var(--bg-gradient-c1) 0%, var(--bg-gradient-c2) 100%);
   min-height: 100vh;
   line-height: 1.5;
+  transition: background 220ms ease, color 220ms ease;
 }
 
 .site-header {
@@ -34,6 +58,28 @@ body {
   flex-wrap: wrap;
   gap: 14px;
   border-bottom: 1px solid var(--line);
+}
+
+.theme-toggle {
+  margin-left: auto;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  color: var(--ink);
+  border-color: var(--link);
 }
 
 .brand {
@@ -75,7 +121,7 @@ body {
 
 .panel {
   padding: 18px 0 22px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--panel-line);
 }
 
 .hero {
@@ -173,5 +219,9 @@ a {
   .nav-links {
     justify-content: flex-start;
     gap: 10px;
+  }
+
+  .theme-toggle {
+    margin-left: 0;
   }
 }
