@@ -27,20 +27,6 @@ Each section is in a separate file so you can edit content quickly without touch
 
 ## Run Locally
 
-You can open `index.html` directly, but using a local server is better because sections are loaded with JavaScript.
-
-Example with Python:
-
-```bash
-python -m http.server 8000
-```
-
-Then visit:
-
-`http://localhost:8000`
-
-## Publish on GitHub Pages
-
 1. Push this repository to GitHub.
 2. Go to repository Settings > Pages.
 3. Set source to deploy from your default branch.
