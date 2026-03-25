@@ -437,15 +437,17 @@ a {
   }
 
   .hero-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) 132px;
+    align-items: center;
+    gap: 12px;
   }
 
   .hero-media {
-    justify-content: center;
+    justify-content: flex-end;
   }
 
   .hero-image {
-    width: min(184px, 100%);
+    width: 132px;
     object-position: center 22%;
   }
 
@@ -485,6 +487,15 @@ a {
 }
 
 @media (max-width: 420px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) 108px;
+    gap: 10px;
+  }
+
+  .hero-image {
+    width: 108px;
+  }
+
   .brand-name {
     font-size: 1.4rem;
   }
