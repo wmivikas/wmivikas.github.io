@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 260" role="img" aria-label="Paper thumbnail placeholder 1">
+  <rect width="420" height="260" fill="#e8eef8"/>
+  <rect x="16" y="16" width="388" height="228" fill="#ffffff" stroke="#c6d3ea"/>
+  <rect x="34" y="36" width="120" height="78" fill="#cfdcf4"/>
+  <rect x="170" y="36" width="216" height="12" fill="#9ab0d8"/>
+  <rect x="170" y="58" width="182" height="10" fill="#b9c8e4"/>
+  <rect x="170" y="78" width="206" height="10" fill="#b9c8e4"/>
+  <rect x="34" y="132" width="352" height="10" fill="#c1cee7"/>
+  <rect x="34" y="152" width="320" height="10" fill="#c1cee7"/>
+  <rect x="34" y="172" width="336" height="10" fill="#c1cee7"/>
+  <text x="210" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#5d7197">Paper Thumbnail</text>
+</svg>
