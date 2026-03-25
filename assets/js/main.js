@@ -21,11 +21,13 @@ function updateThemeToggle(theme) {
   }
 
   if (theme === "dark") {
-    icon.textContent = "o";
+    icon.textContent = "☀";
     toggle.setAttribute("aria-label", "Switch to light mode");
+    toggle.setAttribute("title", "Switch to light mode");
   } else {
-    icon.textContent = "*";
+    icon.textContent = "☾";
     toggle.setAttribute("aria-label", "Switch to dark mode");
+    toggle.setAttribute("title", "Switch to dark mode");
   }
 }
 
@@ -81,6 +83,58 @@ async function loadSections() {
     }
   }
 
+  initSectionSpy();
+}
+
+function initSectionSpy() {
+  const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+  if (!links.length) {
+    return;
+  }
+
+  const sectionById = new Map();
+  links.forEach((link) => {
+    const id = link.getAttribute("href")?.slice(1);
+    if (!id) {
+      return;
+    }
+    const section = document.getElementById(id);
+    if (section) {
+      sectionById.set(id, section);
+    }
+  });
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      const active = link.getAttribute("href") === `#${id}`;
+      link.classList.toggle("is-active", active);
+      if (active) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+      if (visible.length) {
+        setActive(visible[0].target.id);
+      }
+    },
+    { rootMargin: "-20% 0px -60% 0px", threshold: [0.2, 0.4, 0.6] },
+  );
+
+  sectionById.forEach((section) => observer.observe(section));
+
+  const first = sectionById.keys().next().value;
+  if (first) {
+    setActive(first);
+  }
 }
 
 function setYear() {
