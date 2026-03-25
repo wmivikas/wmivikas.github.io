@@ -8,6 +8,29 @@
   --line: #d6d4ca;
   --shadow: 0 18px 45px rgba(24, 24, 23, 0.08);
   --radius: 18px;
+  --card: #fbfaf4;
+  --link: #0f5f86;
+  --bg-gradient-a: rgba(15, 118, 110, 0.12);
+  --bg-gradient-b: rgba(249, 115, 22, 0.12);
+  --bg-gradient-c1: #faf9f5;
+  --bg-gradient-c2: #f3f1e8;
+}
+
+html[data-theme="dark"] {
+  --bg: #101315;
+  --surface: #1a1f22;
+  --ink: #edf2f4;
+  --muted: #b4c0c6;
+  --accent: #2dd4bf;
+  --accent-2: #fb923c;
+  --line: #2f393f;
+  --shadow: 0 20px 42px rgba(0, 0, 0, 0.32);
+  --card: #161d21;
+  --link: #58b2dd;
+  --bg-gradient-a: rgba(45, 212, 191, 0.12);
+  --bg-gradient-b: rgba(251, 146, 60, 0.12);
+  --bg-gradient-c1: #111517;
+  --bg-gradient-c2: #0d1012;
 }
 
 * {
@@ -24,11 +47,12 @@ body {
   font-family: "Bricolage Grotesque", sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at 8% 8%, rgba(15, 118, 110, 0.12) 0 18%, transparent 45%),
-    radial-gradient(circle at 85% 12%, rgba(249, 115, 22, 0.12) 0 14%, transparent 36%),
-    linear-gradient(180deg, #faf9f5 0%, #f3f1e8 100%);
+    radial-gradient(circle at 8% 8%, var(--bg-gradient-a) 0 18%, transparent 45%),
+    radial-gradient(circle at 85% 12%, var(--bg-gradient-b) 0 14%, transparent 36%),
+    linear-gradient(180deg, var(--bg-gradient-c1) 0%, var(--bg-gradient-c2) 100%);
   min-height: 100vh;
   line-height: 1.5;
+  transition: background 280ms ease, color 280ms ease;
 }
 
 .bg-shape {
@@ -71,8 +95,30 @@ body {
   padding: 24px 20px 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 20px;
+}
+
+.theme-toggle {
+  margin-left: auto;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  border-color: var(--accent);
 }
 
 .brand {
@@ -129,6 +175,10 @@ body {
   backdrop-filter: blur(5px);
   transform: translateY(14px);
   opacity: 0;
+}
+
+html[data-theme="dark"] .panel {
+  background: rgba(17, 22, 25, 0.82);
 }
 
 .panel.is-visible {
@@ -203,7 +253,11 @@ ul {
   border: 1px dashed #c2c0b5;
   border-radius: 14px;
   padding: 14px;
-  background: #fbfaf4;
+  background: var(--card);
+}
+
+html[data-theme="dark"] .card {
+  border-color: #3a464e;
 }
 
 .site-footer {
@@ -216,7 +270,7 @@ ul {
 }
 
 a {
-  color: #0f5f86;
+  color: var(--link);
 }
 
 @media (max-width: 760px) {
