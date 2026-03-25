@@ -188,12 +188,15 @@ body {
 }
 
 .hero-image {
-  width: min(220px, 100%);
+  width: min(232px, 100%);
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+  object-position: center 24%;
+  border-radius: 50%;
+  border: 3px solid color-mix(in srgb, var(--surface-strong) 88%, var(--line));
+  box-shadow:
+    var(--shadow),
+    0 0 0 5px color-mix(in srgb, var(--link) 16%, transparent);
 }
 
 .meta-line {
@@ -438,11 +441,12 @@ a {
   }
 
   .hero-media {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .hero-image {
-    width: min(180px, 100%);
+    width: min(184px, 100%);
+    object-position: center 22%;
   }
 
   .profile-card {
