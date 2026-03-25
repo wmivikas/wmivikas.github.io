@@ -40,6 +40,10 @@ body {
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Source Sans 3", sans-serif;
   color: var(--ink);
@@ -157,6 +161,7 @@ body {
   border-radius: 16px;
   background: var(--surface);
   box-shadow: var(--shadow);
+  scroll-margin-top: 82px;
 }
 
 .hero {
@@ -247,39 +252,94 @@ a {
 @media (max-width: 760px) {
   .layout {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 12px;
+    padding: 14px 12px 8px;
   }
 
   .site-header {
-    position: static;
-    align-items: flex-start;
-    padding: 14px;
+    position: sticky;
+    top: 8px;
+    z-index: 8;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 10px 12px;
+    border-radius: 14px;
+    backdrop-filter: blur(8px);
+  }
+
+  .brand {
+    order: 1;
+  }
+
+  .brand-name {
+    font-size: 1.55rem;
   }
 
   .nav-links {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
+    order: 3;
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px 2px 3px;
+    scrollbar-width: thin;
   }
 
   .nav-links a {
     border-left: 0;
-    padding-left: 0;
-    border-bottom: 1px solid transparent;
-    border-radius: 0;
+    border-bottom: 0;
+    white-space: nowrap;
+    padding: 8px 10px;
+    line-height: 1;
+    background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+    border: 1px solid var(--line);
+    border-radius: 999px;
   }
 
   .nav-links a:hover,
   .nav-links a:focus-visible {
-    border-bottom-color: var(--link);
-    background: transparent;
+    border-color: var(--link);
+    background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+  }
+
+  .nav-links a.is-active {
+    border-color: var(--link);
+    background: color-mix(in srgb, var(--link) 14%, var(--surface-strong));
   }
 
   .panel {
-    padding: 18px 16px 20px;
+    padding: 16px 14px 18px;
+    border-radius: 14px;
+    scroll-margin-top: 118px;
   }
 
   .theme-toggle {
+    order: 2;
     margin-left: 0;
+    margin-top: 0;
+    width: 36px;
+    height: 36px;
+  }
+
+  p,
+  li {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-name {
+    font-size: 1.4rem;
+  }
+
+  h1 {
+    font-size: clamp(1.55rem, 9vw, 2rem);
+  }
+
+  h2 {
+    font-size: clamp(1.2rem, 6vw, 1.45rem);
   }
 }
