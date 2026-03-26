@@ -136,6 +136,17 @@ function applySiteMeta(site = {}) {
   if (footerOwner && site.footerName) {
     footerOwner.textContent = site.footerName;
   }
+
+  const footerVersion = document.getElementById("footer-template-version");
+  if (footerVersion) {
+    if (site.templateVersion) {
+      footerVersion.textContent = `Template ${site.templateVersion}`;
+      footerVersion.hidden = false;
+    } else {
+      footerVersion.textContent = "";
+      footerVersion.hidden = true;
+    }
+  }
 }
 
 function renderHeroSection(hero = {}) {
@@ -233,7 +244,34 @@ function renderPublicationsSection(publications = [], heading = {}) {
 }
 
 function renderContactSection(contact = {}) {
-  const items = Array.isArray(contact.items) ? contact.items : [];
+  const items = [];
+
+  if (contact.email) {
+    items.push({ label: "Email", value: contact.email, url: `mailto:${contact.email}` });
+  }
+  if (contact.linkedin) {
+    items.push({ label: "LinkedIn", value: contact.linkedin, url: contact.linkedinUrl || contact.linkedin });
+  }
+  if (contact.github) {
+    items.push({ label: "GitHub", value: contact.github, url: contact.githubUrl || contact.github });
+  }
+  if (contact.googleScholar) {
+    items.push({ label: "Google Scholar", value: contact.googleScholarLabel || "Profile", url: contact.googleScholar });
+  }
+  if (contact.cv) {
+    items.push({ label: "CV", value: contact.cvLabel || "Download CV", url: contact.cv });
+  }
+  if (contact.orcid) {
+    items.push({ label: "ORCID", value: contact.orcidLabel || contact.orcid, url: contact.orcid });
+  }
+  if (contact.twitter) {
+    items.push({ label: "X/Twitter", value: contact.twitterLabel || contact.twitter, url: contact.twitterUrl || contact.twitter });
+  }
+
+  if (Array.isArray(contact.items)) {
+    items.push(...contact.items);
+  }
+
   const itemList = items
     .map((item) => {
       const prefix = `${escapeHtml(item.label || "Label")}: `;

@@ -365,6 +365,13 @@ ul {
   font-size: 0.9rem;
 }
 
+.footer-version {
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+
 a {
   color: var(--link);
 }

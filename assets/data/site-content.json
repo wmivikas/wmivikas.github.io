@@ -3,7 +3,8 @@
     "title": "Vikas | PhD Profile",
     "description": "Academic profile website template for students and researchers.",
     "brandName": "Vikas Kumar",
-    "footerName": "Vikas"
+    "footerName": "Vikas",
+    "templateVersion": "1.1"
   },
   "hero": {
     "kicker": "About",
@@ -95,22 +96,20 @@
     "kicker": "Contact",
     "title": "Get In Touch",
     "intro": "I am open to research collaborations, academic discussions, and speaking opportunities.",
-    "items": [
-      {
-        "label": "Email",
-        "value": "vikas25@iiserb.ac.in",
-        "url": "mailto:vikas25@iiserb.ac.in"
-      },
-      {
-        "label": "LinkedIn",
-        "value": "wmivikas",
-        "url": "https://www.linkedin.com/in/wmivikas/"
-      },
-      {
-        "label": "GitHub",
-        "value": "wmivikas",
-        "url": "https://github.com/wmivikas"
-      }
-    ]
+    "email": "vikas25@iiserb.ac.in",
+    "linkedin": "wmivikas",
+    "linkedinUrl": "https://www.linkedin.com/in/wmivikas/",
+    "github": "wmivikas",
+    "githubUrl": "https://github.com/wmivikas",
+    "googleScholar": "",
+    "googleScholarLabel": "Scholar Profile",
+    "cv": "",
+    "cvLabel": "Download CV",
+    "orcid": "",
+    "orcidLabel": "ORCID Profile",
+    "twitter": "",
+    "twitterUrl": "",
+    "twitterLabel": "@handle",
+    "items": []
   }
 }

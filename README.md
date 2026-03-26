@@ -2,10 +2,12 @@
 
 This repository is a reusable personal academic website template.
 
-The workflow is intentionally simple:
-- You only edit one file: `assets/data/site-content.json`
-- The website updates automatically from that data
-- No build tools, no frameworks, no npm setup
+The workflow is simple:
+- Edit one file: `assets/data/site-content.json`
+- Commit and push
+- Your website updates automatically
+
+No build tools, no framework setup, and no npm required.
 
 ## Quick Start
 
@@ -13,72 +15,117 @@ The workflow is intentionally simple:
 2. Open `assets/data/site-content.json`.
 3. Replace sample values with your own details.
 4. Commit and push.
-5. Enable GitHub Pages from your repository settings.
+5. Enable GitHub Pages in repository settings.
 
 ## Project Structure
 
 - `index.html`: Main HTML shell
-- `assets/css/style.css`: Full styling (light and dark mode)
-- `assets/js/main.js`: Data loader + renderer + theme logic
-- `assets/data/site-content.json`: Main editable content file
+- `assets/css/style.css`: Styling and responsive layout
+- `assets/js/main.js`: Data loader and section renderer
+- `assets/data/site-content.json`: Main editable content
 - `assets/images/`: Profile image and publication thumbnails
-- `sections/`: Fallback HTML sections (used only if JSON file cannot be loaded)
+- `sections/`: Optional fallback HTML sections
 
 ## Main Editing File
 
-Edit this file:
+Edit only:
 
 - `assets/data/site-content.json`
 
-### Editable blocks
+### Editable Blocks
 
-- `site`: browser title, description, brand text, footer name
-- `hero`: name, role line, photo, intro paragraphs
-- `highlightsHeading` and `highlights`: announcements
-- `publicationsHeading` and `publications`: papers and links
-- `contact`: contact text and links
+- `site`: title, description, brand, footer, template version
+- `hero`: name, role line, photo, intro
+- `highlightsHeading` + `highlights`: updates and announcements
+- `publicationsHeading` + `publications`: papers and links
+- `contact`: direct contact values + optional custom items
 
-## Example: Update Name and Role
+## Copy-Paste Starter Content
 
-In `assets/data/site-content.json`, update:
-
-```json
-"hero": {
-	"name": "Your Name",
-	"metaLine": "PhD Student, Department, University",
-	"imageSrc": "assets/images/your-photo.png"
-}
-```
-
-## Example: Add a Publication
-
-Add one object inside `publications`:
+Replace the full `assets/data/site-content.json` with this minimal starter:
 
 ```json
 {
-	"title": "Your Paper Title",
-	"meta": "Your Name, Co-author | Venue (Year)",
-	"summary": "One-line summary of your contribution.",
-	"thumbnail": "assets/images/paper-thumb-1.svg",
-	"thumbnailAlt": "Paper thumbnail",
-	"links": [
-		{ "label": "Paper", "url": "https://example.com/paper" },
-		{ "label": "Code", "url": "https://github.com/your-repo" }
-	]
+	"site": {
+		"title": "Your Name | Academic Profile",
+		"description": "Personal academic website.",
+		"brandName": "Your Name",
+		"footerName": "Your Name",
+		"templateVersion": "1.1"
+	},
+	"hero": {
+		"kicker": "About",
+		"name": "Your Name",
+		"metaLine": "PhD Student, Department, University",
+		"imageSrc": "assets/images/your-photo.png",
+		"imageAlt": "Your profile photo",
+		"paragraphs": [
+			"Write 2-3 lines about your research focus.",
+			"Add your current work and interests."
+		]
+	},
+	"highlightsHeading": {
+		"kicker": "Highlights",
+		"title": "Updates & Announcements"
+	},
+	"highlights": [
+		{
+			"date": "MMM YYYY",
+			"text": "Add your update here.",
+			"links": []
+		}
+	],
+	"publicationsHeading": {
+		"kicker": "Publications",
+		"title": "Selected Publications"
+	},
+	"publications": [
+		{
+			"title": "Paper Title",
+			"meta": "Author One, Author Two | Venue (Year)",
+			"summary": "One-line summary.",
+			"thumbnail": "assets/images/paper-thumb-1.svg",
+			"thumbnailAlt": "Publication thumbnail",
+			"links": []
+		}
+	],
+	"contact": {
+		"kicker": "Contact",
+		"title": "Get In Touch",
+		"intro": "Open to collaborations and discussions.",
+		"email": "you@example.com",
+		"linkedin": "your-linkedin-handle",
+		"linkedinUrl": "https://www.linkedin.com/in/your-profile/",
+		"github": "your-github-username",
+		"githubUrl": "https://github.com/your-github-username",
+		"googleScholar": "",
+		"googleScholarLabel": "Scholar Profile",
+		"cv": "",
+		"cvLabel": "Download CV",
+		"orcid": "",
+		"orcidLabel": "ORCID Profile",
+		"twitter": "",
+		"twitterUrl": "",
+		"twitterLabel": "@handle",
+		"items": []
+	}
 }
 ```
 
-## Add Your Profile Image
+## Optional Contact Fields
 
-1. Put your image in `assets/images/`.
-2. Update `hero.imageSrc` in `assets/data/site-content.json`.
-3. Commit and push.
+The renderer now supports these optional fields in `contact`:
+
+- `googleScholar`
+- `cv`
+- `orcid`
+- `twitter`
+
+If any of these values are empty, they are not shown on the page.
 
 ## Local Preview
 
-You can open `index.html` directly in a browser.
-
-If your browser blocks local JSON fetch, use a simple local static server:
+Open `index.html` directly, or run a local server:
 
 ```powershell
 python -m http.server 8000
@@ -90,23 +137,23 @@ Then open `http://localhost:8000`.
 
 1. Push repository to GitHub.
 2. Open `Settings` -> `Pages`.
-3. In `Build and deployment`, set:
-	 - Source: `Deploy from a branch`
-	 - Branch: `main` (or your default branch), folder `/root`
-4. Save and wait for deployment.
-5. Your site URL will appear on the same page.
+3. Set source to `Deploy from a branch`.
+4. Select branch `main` (or default) and folder `/root`.
+5. Save and wait for deployment.
 
-## Template Behavior
+## Should You Remove the Sections Folder?
 
-- Site reads `assets/data/site-content.json` first.
-- If loading fails, it falls back to `sections/*.html` files.
-- Theme preference is stored in browser local storage.
+Short answer: keep it unless you want to remove fallback support.
 
-## Notes for Template Users
+- Keep `sections/` if you want a backup path when JSON fails.
+- Remove `sections/` only if you want a strict JSON-only template.
+- If you remove `sections/`, also remove fallback loading logic from `assets/js/main.js`.
 
-- Keep JSON valid (commas, quotes, brackets).
-- Use full URLs for external links (for example `https://...`).
-- Use `mailto:your-email@example.com` for email links.
+## Notes
+
+- Keep JSON syntax valid (commas, quotes, brackets).
+- Use full links with `https://`.
+- Use `mailto:you@example.com` for email links.
 
 ## License
 
