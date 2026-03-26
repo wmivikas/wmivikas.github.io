@@ -151,9 +151,12 @@ function applySiteMeta(site = {}) {
 
 function renderHeroSection(hero = {}) {
   const paragraphs = Array.isArray(hero.paragraphs) ? hero.paragraphs : [];
-  const paragraphsHtml = paragraphs
-    .map((text) => `<p>${escapeHtml(text)}</p>`)
-    .join("");
+  const paragraphsHtmlRaw = Array.isArray(hero.paragraphsHtml)
+    ? hero.paragraphsHtml.filter((text) => typeof text === "string" && text.trim())
+    : [];
+  const paragraphsHtml = paragraphsHtmlRaw.length
+    ? paragraphsHtmlRaw.map((text) => `<p>${text}</p>`).join("")
+    : paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
 
   return `
     <section class="panel hero" id="about">

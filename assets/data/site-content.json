@@ -12,6 +12,9 @@
     "metaLine": "PhD Student, EECS, IISER Bhopal | SIRL Lab",
     "imageSrc": "assets/images/pic_vikas_1.png",
     "imageAlt": "Vikas Kumar profile photo",
+    "paragraphsHtml": [
+      "I am currently pursuing my PhD at <a href=\"https://www.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">IISER Bhopal</a> in the <a href=\"https://eecs.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">EECS Department</a>. My research focuses on intelligent systems and practical engineering for real-world deployment, and I work with the <a href=\"https://sirl-lab.github.io/\" target=\"_blank\" rel=\"noopener noreferrer\">SIRL Lab</a>."
+    ],
     "paragraphs": [
       "I am currently pursuing my PhD at IISER Bhopal in the EECS Department.",
       "My research focuses on intelligent systems and practical engineering for real-world deployment.",
