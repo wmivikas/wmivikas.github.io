@@ -329,7 +329,10 @@ function initSectionSpy() {
     return;
   }
 
+  const sectionBadge = document.getElementById("current-section");
+
   const sectionById = new Map();
+  const labelById = new Map();
   links.forEach((link) => {
     const id = link.getAttribute("href")?.slice(1);
     if (!id) {
@@ -338,7 +341,33 @@ function initSectionSpy() {
     const section = document.getElementById(id);
     if (section) {
       sectionById.set(id, section);
+      labelById.set(id, (link.textContent || id).trim());
     }
+  });
+
+  const scrollToSection = (id) => {
+    const section = sectionById.get(id);
+    if (!section) {
+      return;
+    }
+
+    const header = document.querySelector(".site-header");
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    const offset = headerHeight + 18;
+    const top = window.scrollY + section.getBoundingClientRect().top - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
+  links.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const id = link.getAttribute("href")?.slice(1);
+      if (!id || !sectionById.has(id)) {
+        return;
+      }
+      event.preventDefault();
+      scrollToSection(id);
+      history.replaceState(null, "", `#${id}`);
+    });
   });
 
   const setActive = (id) => {
@@ -351,6 +380,10 @@ function initSectionSpy() {
         link.removeAttribute("aria-current");
       }
     });
+
+    if (sectionBadge) {
+      sectionBadge.textContent = labelById.get(id) || "Section";
+    }
   };
 
   const observer = new IntersectionObserver(
