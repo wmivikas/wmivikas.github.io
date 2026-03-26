@@ -5,6 +5,8 @@ const sectionFiles = [
   "sections/06-contact.html",
 ];
 
+const dataFile = "assets/data/site-content.json";
+
 const assetVersion = window.__ASSET_VERSION__ || Date.now().toString();
 
 const themeStorageKey = "site-theme";
@@ -68,6 +70,12 @@ async function loadSections() {
     return;
   }
 
+  const loadedFromData = await loadFromDataFile(root);
+  if (loadedFromData) {
+    initSectionSpy();
+    return;
+  }
+
   for (const path of sectionFiles) {
     try {
       const res = await fetch(`${path}?v=${assetVersion}`);
@@ -85,6 +93,193 @@ async function loadSections() {
   }
 
   initSectionSpy();
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function safeUrl(value) {
+  const url = String(value ?? "").trim();
+  if (!url) {
+    return "#";
+  }
+
+  if (/^(https?:|mailto:|tel:|#|\/)/i.test(url)) {
+    return url;
+  }
+
+  return "#";
+}
+
+function applySiteMeta(site = {}) {
+  if (site.title) {
+    document.title = site.title;
+  }
+
+  const desc = document.querySelector('meta[name="description"]');
+  if (desc && site.description) {
+    desc.setAttribute("content", site.description);
+  }
+
+  const brand = document.querySelector(".brand-name");
+  if (brand && site.brandName) {
+    brand.textContent = site.brandName;
+  }
+
+  const footerOwner = document.getElementById("footer-owner");
+  if (footerOwner && site.footerName) {
+    footerOwner.textContent = site.footerName;
+  }
+}
+
+function renderHeroSection(hero = {}) {
+  const paragraphs = Array.isArray(hero.paragraphs) ? hero.paragraphs : [];
+  const paragraphsHtml = paragraphs
+    .map((text) => `<p>${escapeHtml(text)}</p>`)
+    .join("");
+
+  return `
+    <section class="panel hero" id="about">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker">${escapeHtml(hero.kicker || "About")}</p>
+          <h1>${escapeHtml(hero.name || "Your Name")}</h1>
+          <p class="meta-line">${escapeHtml(hero.metaLine || "Add your role and affiliation")}</p>
+          ${paragraphsHtml}
+        </div>
+        <aside class="hero-media">
+          <img
+            src="${escapeHtml(hero.imageSrc || "assets/images/profile-photo.svg")}" 
+            alt="${escapeHtml(hero.imageAlt || "Profile photo")}" 
+            class="hero-image"
+          />
+        </aside>
+      </div>
+    </section>
+  `;
+}
+
+function renderHighlightsSection(items = [], heading = {}) {
+  const listItems = items
+    .map((item) => {
+      const links = Array.isArray(item.links)
+        ? item.links
+            .map(
+              (link) =>
+                `<a href="${escapeHtml(safeUrl(link.url))}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label || "Link")}</a>`,
+            )
+            .join(" ")
+        : "";
+
+      return `
+        <li>
+          <span class="announcement-date">[${escapeHtml(item.date || "Date")}]</span>
+          ${escapeHtml(item.text || "Add an update here.")}
+          ${links}
+        </li>
+      `;
+    })
+    .join("");
+
+  return `
+    <section class="panel" id="highlights">
+      <p class="kicker">${escapeHtml(heading.kicker || "Highlights")}</p>
+      <h2>${escapeHtml(heading.title || "Updates & Announcements")}</h2>
+      <ul class="announcement-list">
+        ${listItems}
+      </ul>
+    </section>
+  `;
+}
+
+function renderPublicationsSection(publications = [], heading = {}) {
+  const publicationCards = publications
+    .map((pub) => {
+      const links = Array.isArray(pub.links)
+        ? pub.links
+            .map(
+              (link) => `<a href="${escapeHtml(safeUrl(link.url))}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label || "Link")}</a>`,
+            )
+            .join("")
+        : "";
+
+      return `
+        <article class="publication-item pub-row">
+          <img src="${escapeHtml(pub.thumbnail || "assets/images/paper-thumb-1.svg")}" alt="${escapeHtml(pub.thumbnailAlt || "Publication thumbnail")}" class="pub-thumb" />
+          <div>
+            <h3>${escapeHtml(pub.title || "Paper Title")}</h3>
+            <p class="pub-meta">${escapeHtml(pub.meta || "Authors | Venue (Year)")}</p>
+            <p>${escapeHtml(pub.summary || "Add a one-line publication summary.")}</p>
+            <p class="pub-links">${links}</p>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  return `
+    <section class="panel" id="publications">
+      <p class="kicker">${escapeHtml(heading.kicker || "Publications")}</p>
+      <h2>${escapeHtml(heading.title || "Selected Publications")}</h2>
+      ${publicationCards}
+    </section>
+  `;
+}
+
+function renderContactSection(contact = {}) {
+  const items = Array.isArray(contact.items) ? contact.items : [];
+  const itemList = items
+    .map((item) => {
+      const prefix = `${escapeHtml(item.label || "Label")}: `;
+      const value = escapeHtml(item.value || "Value");
+
+      if (item.url) {
+        return `<li>${prefix}<a href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${value}</a></li>`;
+      }
+
+      return `<li>${prefix}${value}</li>`;
+    })
+    .join("");
+
+  return `
+    <section class="panel" id="contact">
+      <p class="kicker">${escapeHtml(contact.kicker || "Contact")}</p>
+      <h2>${escapeHtml(contact.title || "Get In Touch")}</h2>
+      <p>${escapeHtml(contact.intro || "Add your contact invitation text.")}</p>
+      <ul>
+        ${itemList}
+      </ul>
+    </section>
+  `;
+}
+
+async function loadFromDataFile(root) {
+  try {
+    const response = await fetch(`${dataFile}?v=${assetVersion}`);
+    if (!response.ok) {
+      return false;
+    }
+
+    const data = await response.json();
+    applySiteMeta(data.site || {});
+
+    root.innerHTML = [
+      renderHeroSection(data.hero || {}),
+      renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
+      renderPublicationsSection(data.publications || [], data.publicationsHeading || {}),
+      renderContactSection(data.contact || {}),
+    ].join("");
+
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function initSectionSpy() {

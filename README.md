@@ -1,33 +1,113 @@
-# PhD Profile Website
+# Academic Profile Template
 
-This repository now contains a simple, cool, and modular academic profile site.
+This repository is a reusable personal academic website template.
 
-Each section is in a separate file so you can edit content quickly without touching design code.
+The workflow is intentionally simple:
+- You only edit one file: `assets/data/site-content.json`
+- The website updates automatically from that data
+- No build tools, no frameworks, no npm setup
 
-## File Structure
+## Quick Start
 
-- `index.html`: Main page shell
-- `assets/css/style.css`: Full design and layout
-- `assets/js/main.js`: Loads sections and animations
-- `sections/01-hero.html`: Name and quick intro
-- `sections/02-about.html`: About and quick facts
-- `sections/03-research.html`: Research focus
-- `sections/04-publications.html`: Publication list
-- `sections/05-projects.html`: Projects section
-- `sections/06-contact.html`: Contact details
+1. Fork this repository or click `Use this template` on GitHub.
+2. Open `assets/data/site-content.json`.
+3. Replace sample values with your own details.
+4. Commit and push.
+5. Enable GitHub Pages from your repository settings.
 
-## Step-by-Step Editing Guide
+## Project Structure
 
-1. Open `sections/01-hero.html` and update your name, one-line intro, and chips.
-2. Open `sections/02-about.html` and fill university, department, and expected graduation.
-3. Open `sections/03-research.html` and write your exact PhD topic and interests.
-4. Open `sections/04-publications.html` and replace sample papers with your real papers.
-5. Open `sections/05-projects.html` and add your top projects with links.
-6. Open `sections/06-contact.html` and add your real email and profile links.
+- `index.html`: Main HTML shell
+- `assets/css/style.css`: Full styling (light and dark mode)
+- `assets/js/main.js`: Data loader + renderer + theme logic
+- `assets/data/site-content.json`: Main editable content file
+- `assets/images/`: Profile image and publication thumbnails
+- `sections/`: Fallback HTML sections (used only if JSON file cannot be loaded)
 
-## Run Locally
+## Main Editing File
 
-1. Push this repository to GitHub.
-2. Go to repository Settings > Pages.
-3. Set source to deploy from your default branch.
-4. Your site will be live at your GitHub Pages URL.
+Edit this file:
+
+- `assets/data/site-content.json`
+
+### Editable blocks
+
+- `site`: browser title, description, brand text, footer name
+- `hero`: name, role line, photo, intro paragraphs
+- `highlightsHeading` and `highlights`: announcements
+- `publicationsHeading` and `publications`: papers and links
+- `contact`: contact text and links
+
+## Example: Update Name and Role
+
+In `assets/data/site-content.json`, update:
+
+```json
+"hero": {
+	"name": "Your Name",
+	"metaLine": "PhD Student, Department, University",
+	"imageSrc": "assets/images/your-photo.png"
+}
+```
+
+## Example: Add a Publication
+
+Add one object inside `publications`:
+
+```json
+{
+	"title": "Your Paper Title",
+	"meta": "Your Name, Co-author | Venue (Year)",
+	"summary": "One-line summary of your contribution.",
+	"thumbnail": "assets/images/paper-thumb-1.svg",
+	"thumbnailAlt": "Paper thumbnail",
+	"links": [
+		{ "label": "Paper", "url": "https://example.com/paper" },
+		{ "label": "Code", "url": "https://github.com/your-repo" }
+	]
+}
+```
+
+## Add Your Profile Image
+
+1. Put your image in `assets/images/`.
+2. Update `hero.imageSrc` in `assets/data/site-content.json`.
+3. Commit and push.
+
+## Local Preview
+
+You can open `index.html` directly in a browser.
+
+If your browser blocks local JSON fetch, use a simple local static server:
+
+```powershell
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000`.
+
+## Deploy on GitHub Pages
+
+1. Push repository to GitHub.
+2. Open `Settings` -> `Pages`.
+3. In `Build and deployment`, set:
+	 - Source: `Deploy from a branch`
+	 - Branch: `main` (or your default branch), folder `/root`
+4. Save and wait for deployment.
+5. Your site URL will appear on the same page.
+
+## Template Behavior
+
+- Site reads `assets/data/site-content.json` first.
+- If loading fails, it falls back to `sections/*.html` files.
+- Theme preference is stored in browser local storage.
+
+## Notes for Template Users
+
+- Keep JSON valid (commas, quotes, brackets).
+- Use full URLs for external links (for example `https://...`).
+- Use `mailto:your-email@example.com` for email links.
+
+## License
+
+Use and modify this template freely for personal academic websites.

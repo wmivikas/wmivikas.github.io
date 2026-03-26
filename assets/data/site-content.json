@@ -1,0 +1,116 @@
+{
+  "site": {
+    "title": "Vikas | PhD Profile",
+    "description": "Academic profile website template for students and researchers.",
+    "brandName": "Vikas Kumar",
+    "footerName": "Vikas"
+  },
+  "hero": {
+    "kicker": "About",
+    "name": "Vikas Kumar",
+    "metaLine": "PhD Student, EECS, IISER Bhopal | SIRL Lab",
+    "imageSrc": "assets/images/pic_vikas_1.png",
+    "imageAlt": "Vikas Kumar profile photo",
+    "paragraphs": [
+      "I am currently pursuing my PhD at IISER Bhopal in the EECS Department.",
+      "My research focuses on intelligent systems and practical engineering for real-world deployment.",
+      "I work with the SIRL Lab and enjoy building applied AI systems."
+    ]
+  },
+  "highlightsHeading": {
+    "kicker": "Highlights",
+    "title": "Updates & Announcements"
+  },
+  "highlights": [
+    {
+      "date": "Mar 2026",
+      "text": "Poster presentation at EECS Symposium 2026 at IISER Bhopal.",
+      "links": [
+        {
+          "label": "View Poster",
+          "url": "https://iiser-my.sharepoint.com/:p:/g/personal/vikas25_iiserb_ac_in/IQAK_FLbtZwlQJNPVzGAHy6pAeeS6oMsjvmAJgisEA7kVjk?e=j9Uq6Q&nav=eyJzSWQiOjI1OCwiY0lkIjozNjY5Mzg0MTY3fQ"
+        }
+      ]
+    },
+    {
+      "date": "Dec 2025",
+      "text": "Visited IndoML 2025 at BITS Pilani.",
+      "links": [
+        {
+          "label": "IndoML",
+          "url": "https://indoml.in/"
+        }
+      ]
+    }
+  ],
+  "publicationsHeading": {
+    "kicker": "Publications",
+    "title": "Selected Publications"
+  },
+  "publications": [
+    {
+      "title": "Paper Title One",
+      "meta": "Vikas Kumar, Co-author A, Co-author B | Conference/Journal (2026)",
+      "summary": "Brief summary of this paper: key problem, approach, and main contribution.",
+      "thumbnail": "assets/images/paper-thumb-1.svg",
+      "thumbnailAlt": "Paper thumbnail 1",
+      "links": [
+        {
+          "label": "Paper",
+          "url": "#"
+        },
+        {
+          "label": "Code",
+          "url": "#"
+        },
+        {
+          "label": "Project",
+          "url": "#"
+        }
+      ]
+    },
+    {
+      "title": "Paper Title Two",
+      "meta": "Vikas Kumar, Co-author C | Conference/Journal (2025)",
+      "summary": "Brief summary of this paper and its practical significance.",
+      "thumbnail": "assets/images/paper-thumb-2.svg",
+      "thumbnailAlt": "Paper thumbnail 2",
+      "links": [
+        {
+          "label": "Paper",
+          "url": "#"
+        },
+        {
+          "label": "Poster",
+          "url": "#"
+        },
+        {
+          "label": "Video",
+          "url": "#"
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "kicker": "Contact",
+    "title": "Get In Touch",
+    "intro": "I am open to research collaborations, academic discussions, and speaking opportunities.",
+    "items": [
+      {
+        "label": "Email",
+        "value": "vikas25@iiserb.ac.in",
+        "url": "mailto:vikas25@iiserb.ac.in"
+      },
+      {
+        "label": "LinkedIn",
+        "value": "wmivikas",
+        "url": "https://www.linkedin.com/in/wmivikas/"
+      },
+      {
+        "label": "GitHub",
+        "value": "wmivikas",
+        "url": "https://github.com/wmivikas"
+      }
+    ]
+  }
+}
