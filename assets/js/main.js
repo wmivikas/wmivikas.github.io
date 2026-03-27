@@ -149,7 +149,7 @@ function applySiteMeta(site = {}) {
   }
 }
 
-function renderHeroSection(hero = {}) {
+function renderHeroSection(hero = {}, contact = {}) {
   const paragraphs = Array.isArray(hero.paragraphs) ? hero.paragraphs : [];
   const paragraphsHtmlRaw = Array.isArray(hero.paragraphsHtml)
     ? hero.paragraphsHtml.filter((text) => typeof text === "string" && text.trim())
@@ -157,6 +157,11 @@ function renderHeroSection(hero = {}) {
   const paragraphsHtml = paragraphsHtmlRaw.length
     ? paragraphsHtmlRaw.map((text) => `<p>${text}</p>`).join("")
     : paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
+  const cvUrl = contact.cv ? safeUrl(contact.cv) : "";
+  const cvLabel = contact.cvLabel || "Download CV";
+  const cvAction = cvUrl && cvUrl !== "#"
+    ? `<p class="hero-actions"><a class="hero-action-link" href="${escapeHtml(cvUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(cvLabel)}</a></p>`
+    : "";
 
   return `
     <section class="panel hero" id="about">
@@ -165,6 +170,7 @@ function renderHeroSection(hero = {}) {
           <p class="kicker">${escapeHtml(hero.kicker || "About")}</p>
           <h1>${escapeHtml(hero.name || "Your Name")}</h1>
           <p class="meta-line">${escapeHtml(hero.metaLine || "Add your role and affiliation")}</p>
+          ${cvAction}
           ${paragraphsHtml}
         </div>
         <aside class="hero-media">
@@ -311,7 +317,7 @@ async function loadFromDataFile(root) {
     applySiteMeta(data.site || {});
 
     root.innerHTML = [
-      renderHeroSection(data.hero || {}),
+      renderHeroSection(data.hero || {}, data.contact || {}),
       renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
       renderPublicationsSection(data.publications || [], data.publicationsHeading || {}),
       renderContactSection(data.contact || {}),

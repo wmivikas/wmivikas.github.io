@@ -220,6 +220,27 @@ body {
   font-weight: 600;
 }
 
+.hero-actions {
+  margin: 0 0 12px;
+}
+
+.hero-action-link {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--link);
+  background: color-mix(in srgb, var(--link) 14%, var(--surface-strong));
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.hero-action-link:hover,
+.hero-action-link:focus-visible {
+  color: var(--link);
+  background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+}
+
 .profile-card {
   border: 1px solid var(--line);
   border-radius: 14px;
