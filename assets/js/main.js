@@ -383,6 +383,24 @@ function initSectionSpy() {
     }
   });
 
+  const sections = Array.from(sectionById.entries()).map(([id, section]) => ({ id, section }));
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      const active = link.getAttribute("href") === `#${id}`;
+      link.classList.toggle("is-active", active);
+      if (active) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    if (sectionBadge) {
+      sectionBadge.textContent = labelById.get(id) || "Section";
+    }
+  };
+
   const scrollToSection = (id) => {
     const section = sectionById.get(id);
     if (!section) {
@@ -403,46 +421,58 @@ function initSectionSpy() {
         return;
       }
       event.preventDefault();
+      setActive(id);
       scrollToSection(id);
       history.replaceState(null, "", `#${id}`);
     });
   });
 
-  const setActive = (id) => {
-    links.forEach((link) => {
-      const active = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("is-active", active);
-      if (active) {
-        link.setAttribute("aria-current", "page");
-      } else {
-        link.removeAttribute("aria-current");
-      }
-    });
-
-    if (sectionBadge) {
-      sectionBadge.textContent = labelById.get(id) || "Section";
+  const resolveActiveByScroll = () => {
+    if (!sections.length) {
+      return;
     }
+
+    const header = document.querySelector(".site-header");
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    const marker = window.scrollY + headerHeight + 28;
+
+    let activeId = sections[0].id;
+    for (const item of sections) {
+      const absoluteTop = window.scrollY + item.section.getBoundingClientRect().top;
+      if (absoluteTop <= marker) {
+        activeId = item.id;
+      } else {
+        break;
+      }
+    }
+
+    setActive(activeId);
   };
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+  let rafToken = 0;
+  const onScroll = () => {
+    if (rafToken) {
+      return;
+    }
 
-      if (visible.length) {
-        setActive(visible[0].target.id);
-      }
-    },
-    { rootMargin: "-20% 0px -60% 0px", threshold: [0.2, 0.4, 0.6] },
-  );
+    rafToken = window.requestAnimationFrame(() => {
+      resolveActiveByScroll();
+      rafToken = 0;
+    });
+  };
 
-  sectionById.forEach((section) => observer.observe(section));
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
 
-  const first = sectionById.keys().next().value;
-  if (first) {
-    setActive(first);
+  if (window.location.hash) {
+    const idFromHash = window.location.hash.slice(1);
+    if (sectionById.has(idFromHash)) {
+      setActive(idFromHash);
+      return;
+    }
   }
+
+  resolveActiveByScroll();
 }
 
 function setYear() {
