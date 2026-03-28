@@ -170,8 +170,8 @@ function renderHeroSection(hero = {}, contact = {}) {
           <p class="kicker">${escapeHtml(hero.kicker || "About")}</p>
           <h1>${escapeHtml(hero.name || "Your Name")}</h1>
           <p class="meta-line">${escapeHtml(hero.metaLine || "Add your role and affiliation")}</p>
-          ${cvAction}
           ${paragraphsHtml}
+          ${cvAction}
         </div>
         <aside class="hero-media">
           <img
