@@ -24,19 +24,35 @@ function updateThemeToggle(theme) {
   }
 
   if (theme === "dark") {
-    icon.textContent = "☀";
+    icon.textContent = "🌞";
     toggle.setAttribute("aria-label", "Switch to light mode");
     toggle.setAttribute("title", "Switch to light mode");
   } else {
-    icon.textContent = "☾";
+    icon.textContent = "🌙";
     toggle.setAttribute("aria-label", "Switch to dark mode");
     toggle.setAttribute("title", "Switch to dark mode");
   }
 }
 
+function setDynamicFavicon(theme) {
+  const emoji = theme === "dark" ? "🌙" : "🌞";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><text y="50" font-size="50">${emoji}</text></svg>`;
+  const url = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+
+  let favicon = document.querySelector('link[rel="icon"]');
+  if (!favicon) {
+    favicon = document.createElement("link");
+    favicon.setAttribute("rel", "icon");
+    document.head.appendChild(favicon);
+  }
+
+  favicon.setAttribute("href", url);
+}
+
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   updateThemeToggle(theme);
+  setDynamicFavicon(theme);
 }
 
 function initTheme() {
@@ -218,6 +234,71 @@ function renderHighlightsSection(items = [], heading = {}) {
   `;
 }
 
+function renderWebUpdateSection(update = {}) {
+  const text = escapeHtml(update.text || "No live internet update available right now.");
+  const sourceLabel = escapeHtml(update.sourceLabel || "Local fallback");
+  const sourceUrl = safeUrl(update.sourceUrl || "#");
+  const timestamp = escapeHtml(update.timestamp || new Date().toLocaleTimeString());
+  const emoji = escapeHtml(update.emoji || "🛰️");
+  const sourceHtml = sourceUrl !== "#"
+    ? `<a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">${sourceLabel}</a>`
+    : sourceLabel;
+
+  return `
+    <section class="panel web-update" id="web-update">
+      <p class="kicker">Live Update</p>
+      <h2 class="web-update-title">${emoji} Fresh From The Web</h2>
+      <p>${text}</p>
+      <p class="web-update-meta">Source: ${sourceHtml} • Updated: ${timestamp}</p>
+    </section>
+  `;
+}
+
+async function getWebUpdate() {
+  const localFallbacks = [
+    "Try a 25-minute focused sprint and ship one tiny improvement today.",
+    "A clean README with one screenshot increases project trust immediately.",
+    "Small CSS spacing fixes often make a website feel dramatically more premium.",
+  ];
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2600);
+    const response = await fetch("https://api.adviceslip.com/advice", {
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      throw new Error("Advice API request failed");
+    }
+
+    const payload = await response.json();
+    const advice = payload?.slip?.advice;
+    if (!advice) {
+      throw new Error("Advice API payload missing text");
+    }
+
+    return {
+      text: advice,
+      sourceLabel: "Advice Slip",
+      sourceUrl: "https://api.adviceslip.com/",
+      timestamp: new Date().toLocaleTimeString(),
+      emoji: "🌐",
+    };
+  } catch {
+    const pick = localFallbacks[Math.floor(Math.random() * localFallbacks.length)];
+    return {
+      text: pick,
+      sourceLabel: "Local fallback",
+      sourceUrl: "#",
+      timestamp: new Date().toLocaleTimeString(),
+      emoji: "✨",
+    };
+  }
+}
+
 function renderPublicationsSection(publications = [], heading = {}) {
   const publicationCards = publications
     .map((pub) => {
@@ -314,11 +395,13 @@ async function loadFromDataFile(root) {
     }
 
     const data = await response.json();
+    const webUpdate = await getWebUpdate();
     applySiteMeta(data.site || {});
 
     root.innerHTML = [
       renderHeroSection(data.hero || {}, data.contact || {}),
       renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
+      renderWebUpdateSection(webUpdate),
       renderPublicationsSection(data.publications || [], data.publicationsHeading || {}),
       renderContactSection(data.contact || {}),
     ].join("");
