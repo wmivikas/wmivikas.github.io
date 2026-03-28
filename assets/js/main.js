@@ -102,6 +102,7 @@ async function loadSections() {
   const loadedFromData = await loadFromDataFile(root);
   if (loadedFromData) {
     initSectionSpy();
+    initPanelReveal();
     return;
   }
 
@@ -122,6 +123,35 @@ async function loadSections() {
   }
 
   initSectionSpy();
+  initPanelReveal();
+}
+
+function initPanelReveal() {
+  const panels = Array.from(document.querySelectorAll(".panel"));
+  if (!panels.length) {
+    return;
+  }
+
+  panels.forEach((panel, index) => {
+    panel.style.transitionDelay = `${Math.min(index * 70, 420)}ms`;
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      rootMargin: "0px 0px -12% 0px",
+      threshold: 0.12,
+    },
+  );
+
+  panels.forEach((panel) => observer.observe(panel));
 }
 
 function escapeHtml(value) {
