@@ -444,11 +444,48 @@ ul {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  font-size: 0.72rem;
-  font-weight: 700;
   color: var(--ink);
   border: 1px solid color-mix(in srgb, var(--line) 75%, var(--link));
   background: color-mix(in srgb, var(--link) 14%, var(--surface-strong));
+}
+
+.contact-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: currentColor;
+}
+
+.contact-icon--email {
+  color: #d94a39;
+}
+
+.contact-icon--linkedin {
+  color: #0a66c2;
+}
+
+.contact-icon--github {
+  color: color-mix(in srgb, var(--ink) 85%, #4f4f4f);
+}
+
+.contact-icon--scholar {
+  color: #2d6cdf;
+}
+
+.contact-icon--cv {
+  color: #1d7a46;
+}
+
+.contact-icon--orcid {
+  color: #a6ce39;
+}
+
+.contact-icon--x {
+  color: #0f0f10;
+}
+
+html[data-theme="dark"] .contact-icon--x {
+  color: #f2f4f8;
 }
 
 .contact-label {

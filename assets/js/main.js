@@ -298,17 +298,48 @@ function renderPublicationsSection(publications = [], heading = {}) {
 }
 
 function renderContactSection(contact = {}) {
-  const iconByLabel = {
-    Email: "✉",
-    LinkedIn: "in",
-    GitHub: "GH",
-    "Google Scholar": "GS",
-    CV: "CV",
-    ORCID: "ID",
-    "X/Twitter": "X",
+  const iconMetaByLabel = {
+    Email: {
+      className: "contact-icon--email",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v.217L8 8.917.001 4.217V4zm0 1.383v6.617a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5.383L8.4 9.8a1 1 0 0 1-1.2 0L0 5.383z"/></svg>',
+    },
+    LinkedIn: {
+      className: "contact-icon--linkedin",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175A1.16 1.16 0 0 1 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zM3.743 5.18c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.358.54-1.358 1.248 0 .694.52 1.248 1.327 1.248h.015zm3.758 8.214h2.4V9.359c0-.216.016-.432.08-.586.174-.432.57-.88 1.234-.88.87 0 1.219.664 1.219 1.635v3.866h2.4V9.25c0-2.22-1.184-3.252-2.764-3.252-1.275 0-1.845.709-2.16 1.2h.015v-1.03h-2.4c.032.663 0 7.225 0 7.225z"/></svg>',
+    },
+    GitHub: {
+      className: "contact-icon--github",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8.01 8.01 0 0 0 5.47 7.59c.4.08.55-.17.55-.38 0-.2-.01-.83-.01-1.5-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.47 7.47 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+    },
+    "Google Scholar": {
+      className: "contact-icon--scholar",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1 0 5l8 4 6.5-3.25V11h1V5L8 1zm-4 8.4V12c0 1.1 1.8 2 4 2s4-.9 4-2V9.4L8 11 4 9.4z"/></svg>',
+    },
+    CV: {
+      className: "contact-icon--cv",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.293 0H3.5A1.5 1.5 0 0 0 2 1.5v13A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V4.707L9.293 0zM9.5 1.5 12.5 4.5h-2A1 1 0 0 1 9.5 3.5v-2zM4.75 7h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5zm0 3h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5z"/></svg>',
+    },
+    ORCID: {
+      className: "contact-icon--orcid",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm-2.06 3.5a.94.94 0 1 1 0 1.88.94.94 0 0 1 0-1.88zM4.9 6h2.05v5.25H4.9V6zm3.1 0h2.3c2 0 3.2 1.05 3.2 2.62 0 1.6-1.2 2.63-3.2 2.63H8V6zm2.15 4.05c1.05 0 1.7-.5 1.7-1.43 0-.92-.65-1.42-1.7-1.42h-.65v2.85h.65z"/></svg>',
+    },
+    "X/Twitter": {
+      className: "contact-icon--x",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.2 6.8 14.2 1h-1.2L8.7 6 5.3 1H1.2l5.3 7.7L1.2 15h1.2l4.7-5.5 3.8 5.5H15L9.2 6.8zM7.7 8.5l-.5-.7L3.6 2.6h1.9L8.3 6.6l.5.7 3.8 5.3h-1.9L7.7 8.5z"/></svg>',
+    },
   };
 
-  const iconFor = (label) => iconByLabel[label] || "•";
+  const iconMetaFor = (label) => {
+    const meta = iconMetaByLabel[label];
+    if (meta) {
+      return meta;
+    }
+
+    return {
+      className: "contact-icon--default",
+      svg: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3a.5.5 0 0 1 .5.5v2h6.793L9.146 2.854a.5.5 0 1 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 1 1-.708-.708L11.793 6.5H5v2a.5.5 0 0 1-1 0v-5A.5.5 0 0 1 4.5 3z"/></svg>',
+    };
+  };
 
   const items = [];
 
@@ -342,13 +373,13 @@ function renderContactSection(contact = {}) {
     .map((item) => {
       const prefix = `${escapeHtml(item.label || "Label")}: `;
       const value = escapeHtml(item.value || "Value");
-      const icon = escapeHtml(iconFor(item.label || ""));
+      const iconMeta = iconMetaFor(item.label || "");
 
       if (item.url) {
-        return `<li class="contact-item"><span class="contact-icon" aria-hidden="true">${icon}</span><span class="contact-label">${prefix}</span><a href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${value}</a></li>`;
+        return `<li class="contact-item"><span class="contact-icon ${iconMeta.className}" aria-hidden="true">${iconMeta.svg}</span><span class="contact-label">${prefix}</span><a href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${value}</a></li>`;
       }
 
-      return `<li class="contact-item"><span class="contact-icon" aria-hidden="true">${icon}</span><span class="contact-label">${prefix}</span>${value}</li>`;
+      return `<li class="contact-item"><span class="contact-icon ${iconMeta.className}" aria-hidden="true">${iconMeta.svg}</span><span class="contact-label">${prefix}</span>${value}</li>`;
     })
     .join("");
 
