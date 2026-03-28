@@ -51,7 +51,7 @@ html {
 }
 
 body {
-  font-family: "Source Sans 3", sans-serif;
+  font-family: "Manrope", sans-serif;
   color: var(--ink);
   background:
     radial-gradient(circle at 8% 8%, var(--bg-gradient-a) 0 18%, transparent 45%),
@@ -154,7 +154,7 @@ body {
 
 .brand-name {
   font-size: 1.86rem;
-  font-family: "Source Serif 4", serif;
+  font-family: "Cormorant Garamond", serif;
   letter-spacing: -0.01em;
   color: #f4f6fb;
   white-space: nowrap;
@@ -297,6 +297,58 @@ body {
   letter-spacing: 0.02em;
 }
 
+.hero-signature {
+  margin: 0 0 14px;
+  padding: 11px 13px;
+  border: 1px solid color-mix(in srgb, var(--line) 62%, var(--gold));
+  border-radius: 12px;
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--surface-strong) 92%, var(--gold) 8%), color-mix(in srgb, var(--surface-strong) 96%, transparent));
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-signature-title,
+.hero-signature-lead,
+.hero-signature-meta {
+  margin: 0;
+}
+
+.hero-signature-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.hero-signature-lead {
+  margin-top: 3px;
+  font-size: 1.08rem;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.hero-signature-meta {
+  margin-top: 4px;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.hero-copy {
+  max-width: 68ch;
+}
+
+.hero-copy p {
+  margin: 0 0 10px;
+}
+
+.hero-copy p:first-child {
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--ink) 90%, var(--accent));
+}
+
 .hero-actions {
   margin: 12px 0 0;
 }
@@ -341,7 +393,7 @@ body {
   margin: 0 auto 8px;
   display: grid;
   place-items: center;
-  font-family: "Source Serif 4", serif;
+  font-family: "Cormorant Garamond", serif;
   font-size: 2rem;
   font-weight: 700;
   color: var(--link);
@@ -372,19 +424,20 @@ h3 {
 h1 {
   font-size: clamp(2.15rem, 5.6vw, 3.15rem);
   margin-bottom: 8px;
-  font-family: "Source Serif 4", serif;
+  font-family: "Cormorant Garamond", serif;
   letter-spacing: -0.02em;
 }
 
 h2 {
   font-size: clamp(1.46rem, 2.8vw, 1.82rem);
   margin-bottom: 10px;
-  font-family: "Source Serif 4", serif;
+  font-family: "Cormorant Garamond", serif;
 }
 
 h3 {
   font-size: 1.15rem;
   margin-bottom: 8px;
+  font-family: "Manrope", sans-serif;
 }
 
 p,
@@ -674,6 +727,18 @@ a {
 
   .brand-name {
     font-size: 1.55rem;
+  }
+
+  .hero-signature {
+    padding: 10px 11px;
+  }
+
+  .hero-signature-lead {
+    font-size: 1.02rem;
+  }
+
+  .hero-copy p:first-child {
+    font-size: 1.02rem;
   }
 
   .nav-links {
