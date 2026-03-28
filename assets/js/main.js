@@ -376,10 +376,24 @@ function renderContactSection(contact = {}) {
       const iconMeta = iconMetaFor(item.label || "");
 
       if (item.url) {
-        return `<li class="contact-item"><span class="contact-icon ${iconMeta.className}" aria-hidden="true">${iconMeta.svg}</span><span class="contact-label">${prefix}</span><a href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${value}</a></li>`;
+        return `
+          <li class="contact-item contact-item--linked">
+            <a class="contact-row-link" href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.label || "Contact")}: ${value}">
+              <span class="contact-icon ${iconMeta.className}" aria-hidden="true">${iconMeta.svg}</span>
+              <span class="contact-label">${prefix}</span>
+              <span class="contact-value">${value}</span>
+            </a>
+          </li>
+        `;
       }
 
-      return `<li class="contact-item"><span class="contact-icon ${iconMeta.className}" aria-hidden="true">${iconMeta.svg}</span><span class="contact-label">${prefix}</span>${value}</li>`;
+      return `
+        <li class="contact-item">
+          <span class="contact-icon ${iconMeta.className}" aria-hidden="true">${iconMeta.svg}</span>
+          <span class="contact-label">${prefix}</span>
+          <span class="contact-value">${value}</span>
+        </li>
+      `;
     })
     .join("");
 

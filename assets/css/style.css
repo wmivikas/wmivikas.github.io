@@ -436,6 +436,29 @@ ul {
   background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
 }
 
+.contact-item--linked {
+  padding: 0;
+}
+
+.contact-row-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 10px;
+  transition: background 170ms ease, transform 170ms ease, box-shadow 170ms ease;
+}
+
+.contact-row-link:hover,
+.contact-row-link:focus-visible {
+  background: color-mix(in srgb, var(--link) 10%, var(--surface-strong));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .contact-icon {
   width: 28px;
   height: 28px;
@@ -491,6 +514,10 @@ html[data-theme="dark"] .contact-icon--x {
 .contact-label {
   color: var(--muted);
   font-weight: 700;
+}
+
+.contact-value {
+  color: var(--link);
 }
 
 .contact-item a {
@@ -634,6 +661,12 @@ a {
   }
 
   .contact-item {
+    padding: 7px 8px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .contact-row-link {
     padding: 7px 8px;
     gap: 8px;
     flex-wrap: wrap;
