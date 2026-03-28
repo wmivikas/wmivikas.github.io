@@ -35,6 +35,8 @@ Edit only:
 ### Editable Blocks
 
 - `site`: title, description, brand, footer, template version
+	- `templateVersion` is optional; keep it empty to hide in footer.
+	- `lastUpdated` controls footer updated time.
 - `hero`: name, role line, photo, intro
 - `highlightsHeading` + `highlights`: updates and announcements
 - `publicationsHeading` + `publications`: papers and links
@@ -51,7 +53,8 @@ Replace the full `assets/data/site-content.json` with this minimal starter:
 		"description": "Personal academic website.",
 		"brandName": "Your Name",
 		"footerName": "Your Name",
-		"templateVersion": "1.1"
+		"templateVersion": "",
+		"lastUpdated": "2026-03-28T18:30:00+05:30"
 	},
 	"hero": {
 		"kicker": "About",

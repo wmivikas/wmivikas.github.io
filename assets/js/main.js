@@ -237,16 +237,6 @@ function renderHeroSection(hero = {}, contact = {}) {
   const cvAction = cvUrl && cvUrl !== "#"
     ? `<p class="hero-actions"><a class="hero-action-link" href="${escapeHtml(cvUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(cvLabel)}</a></p>`
     : "";
-  const signatureTitle = hero.signatureTitle || "Research Signature";
-  const signatureLead = hero.signatureLead || "Intelligent Systems";
-  const signatureMeta = hero.signatureMeta || "Applied AI • Real-world Deployment • Collaboration-ready";
-  const signatureStrip = `
-    <div class="hero-signature" aria-label="Professional signature">
-      <p class="hero-signature-title">${escapeHtml(signatureTitle)}</p>
-      <p class="hero-signature-lead">${escapeHtml(signatureLead)}</p>
-      <p class="hero-signature-meta">${escapeHtml(signatureMeta)}</p>
-    </div>
-  `;
 
   return `
     <section class="panel hero" id="about">
@@ -255,7 +245,6 @@ function renderHeroSection(hero = {}, contact = {}) {
           <p class="kicker">${escapeHtml(hero.kicker || "About")}</p>
           <h1>${escapeHtml(hero.name || "Your Name")}</h1>
           <p class="meta-line">${escapeHtml(hero.metaLine || "Add your role and affiliation")}</p>
-          ${signatureStrip}
           <div class="hero-copy">${paragraphsHtml}</div>
           ${cvAction}
         </div>
