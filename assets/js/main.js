@@ -35,8 +35,21 @@ function updateThemeToggle(theme) {
 }
 
 function setDynamicFavicon(theme) {
-  const emoji = theme === "dark" ? "🌙" : "🌞";
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><text y="50" font-size="50">${emoji}</text></svg>`;
+  const baseA = theme === "dark" ? "#0a1a2b" : "#113d6d";
+  const baseB = theme === "dark" ? "#1d5ea8" : "#1f75d1";
+  const fg = "#f4f8ff";
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="VK favicon">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${baseA}"/>
+          <stop offset="100%" stop-color="${baseB}"/>
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+      <path d="M16 48V16h7l9 18 9-18h7v32h-7V30l-7.8 15.6h-2.4L23 30v18z" fill="${fg}"/>
+    </svg>
+  `;
   const url = `data:image/svg+xml,${encodeURIComponent(svg)}`;
 
   let favicon = document.querySelector('link[rel="icon"]');
@@ -285,6 +298,18 @@ function renderPublicationsSection(publications = [], heading = {}) {
 }
 
 function renderContactSection(contact = {}) {
+  const iconByLabel = {
+    Email: "✉",
+    LinkedIn: "in",
+    GitHub: "GH",
+    "Google Scholar": "GS",
+    CV: "CV",
+    ORCID: "ID",
+    "X/Twitter": "X",
+  };
+
+  const iconFor = (label) => iconByLabel[label] || "•";
+
   const items = [];
 
   if (contact.email) {
@@ -317,12 +342,13 @@ function renderContactSection(contact = {}) {
     .map((item) => {
       const prefix = `${escapeHtml(item.label || "Label")}: `;
       const value = escapeHtml(item.value || "Value");
+      const icon = escapeHtml(iconFor(item.label || ""));
 
       if (item.url) {
-        return `<li>${prefix}<a href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${value}</a></li>`;
+        return `<li class="contact-item"><span class="contact-icon" aria-hidden="true">${icon}</span><span class="contact-label">${prefix}</span><a href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${value}</a></li>`;
       }
 
-      return `<li>${prefix}${value}</li>`;
+      return `<li class="contact-item"><span class="contact-icon" aria-hidden="true">${icon}</span><span class="contact-label">${prefix}</span>${value}</li>`;
     })
     .join("");
 
@@ -331,7 +357,7 @@ function renderContactSection(contact = {}) {
       <p class="kicker">${escapeHtml(contact.kicker || "Contact")}</p>
       <h2>${escapeHtml(contact.title || "Get In Touch")}</h2>
       <p>${escapeHtml(contact.intro || "Add your contact invitation text.")}</p>
-      <ul>
+      <ul class="contact-list">
         ${itemList}
       </ul>
     </section>
