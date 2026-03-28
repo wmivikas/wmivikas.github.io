@@ -418,24 +418,6 @@ ul {
   color: var(--muted);
 }
 
-.web-update {
-  display: grid;
-  gap: 6px;
-  border-style: dashed;
-}
-
-.web-update-title {
-  margin: 0;
-  font-size: 1.02rem;
-  font-weight: 700;
-}
-
-.web-update-meta {
-  margin: 0;
-  font-size: 0.86rem;
-  color: var(--muted);
-}
-
 .site-footer {
   max-width: 1080px;
   margin: 0 auto;

@@ -163,6 +163,22 @@ function applySiteMeta(site = {}) {
       footerVersion.hidden = true;
     }
   }
+
+  const footerLastUpdated = document.getElementById("footer-last-updated");
+  if (footerLastUpdated) {
+    const updatedValue = typeof site.lastUpdated === "string" ? site.lastUpdated.trim() : "";
+    let displayValue = "";
+
+    if (updatedValue) {
+      const parsedDate = new Date(updatedValue);
+      displayValue = Number.isNaN(parsedDate.getTime()) ? updatedValue : parsedDate.toLocaleString();
+    } else {
+      displayValue = new Date().toLocaleString();
+    }
+
+    footerLastUpdated.textContent = `Updated ${displayValue}`;
+    footerLastUpdated.hidden = false;
+  }
 }
 
 function renderHeroSection(hero = {}, contact = {}) {
@@ -232,71 +248,6 @@ function renderHighlightsSection(items = [], heading = {}) {
       </ul>
     </section>
   `;
-}
-
-function renderWebUpdateSection(update = {}) {
-  const text = escapeHtml(update.text || "No live internet update available right now.");
-  const sourceLabel = escapeHtml(update.sourceLabel || "Local fallback");
-  const sourceUrl = safeUrl(update.sourceUrl || "#");
-  const timestamp = escapeHtml(update.timestamp || new Date().toLocaleTimeString());
-  const emoji = escapeHtml(update.emoji || "🛰️");
-  const sourceHtml = sourceUrl !== "#"
-    ? `<a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">${sourceLabel}</a>`
-    : sourceLabel;
-
-  return `
-    <section class="panel web-update" id="web-update">
-      <p class="kicker">Live Update</p>
-      <h2 class="web-update-title">${emoji} Fresh From The Web</h2>
-      <p>${text}</p>
-      <p class="web-update-meta">Source: ${sourceHtml} • Updated: ${timestamp}</p>
-    </section>
-  `;
-}
-
-async function getWebUpdate() {
-  const localFallbacks = [
-    "Try a 25-minute focused sprint and ship one tiny improvement today.",
-    "A clean README with one screenshot increases project trust immediately.",
-    "Small CSS spacing fixes often make a website feel dramatically more premium.",
-  ];
-
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2600);
-    const response = await fetch("https://api.adviceslip.com/advice", {
-      cache: "no-store",
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      throw new Error("Advice API request failed");
-    }
-
-    const payload = await response.json();
-    const advice = payload?.slip?.advice;
-    if (!advice) {
-      throw new Error("Advice API payload missing text");
-    }
-
-    return {
-      text: advice,
-      sourceLabel: "Advice Slip",
-      sourceUrl: "https://api.adviceslip.com/",
-      timestamp: new Date().toLocaleTimeString(),
-      emoji: "🌐",
-    };
-  } catch {
-    const pick = localFallbacks[Math.floor(Math.random() * localFallbacks.length)];
-    return {
-      text: pick,
-      sourceLabel: "Local fallback",
-      sourceUrl: "#",
-      timestamp: new Date().toLocaleTimeString(),
-      emoji: "✨",
-    };
-  }
 }
 
 function renderPublicationsSection(publications = [], heading = {}) {
@@ -395,13 +346,11 @@ async function loadFromDataFile(root) {
     }
 
     const data = await response.json();
-    const webUpdate = await getWebUpdate();
     applySiteMeta(data.site || {});
 
     root.innerHTML = [
       renderHeroSection(data.hero || {}, data.contact || {}),
       renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
-      renderWebUpdateSection(webUpdate),
       renderPublicationsSection(data.publications || [], data.publicationsHeading || {}),
       renderContactSection(data.contact || {}),
     ].join("");
@@ -503,6 +452,42 @@ function setYear() {
   }
 }
 
+function initLocalClock() {
+  const clockNode = document.getElementById("footer-local-clock");
+  if (!clockNode) {
+    return;
+  }
+
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local";
+
+  const renderClock = () => {
+    const now = new Date();
+    const dateText = new Intl.DateTimeFormat(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+      weekday: "short",
+      timeZone,
+    }).format(now);
+
+    const timeText = new Intl.DateTimeFormat(undefined, {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+      timeZone,
+      timeZoneName: "short",
+    }).format(now);
+
+    clockNode.textContent = `${dateText} ${timeText} (${timeZone})`;
+    clockNode.hidden = false;
+  };
+
+  renderClock();
+  window.setInterval(renderClock, 1000);
+}
+
 initTheme();
 setYear();
+initLocalClock();
 loadSections();
