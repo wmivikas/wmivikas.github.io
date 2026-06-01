@@ -48,6 +48,17 @@
       ]
     }
   ],
+  "rejectionsHeading": {
+    "kicker": "Rejections",
+    "title": "Rejections (Date + One Line)"
+  },
+  "rejections": [
+    {
+      "date": "Jun 2026",
+      "text": "Add your rejection note here (one line).",
+      "links": []
+    }
+  ],
   "publicationsHeading": {
     "kicker": "Publications",
     "title": "Selected Publications"

@@ -1,6 +1,7 @@
 const sectionFiles = [
   "sections/01-hero.html",
   "sections/05-highlights.html",
+  "sections/03-rejections.html",
   "sections/04-publications.html",
   "sections/06-contact.html",
 ];
@@ -293,6 +294,48 @@ function renderHighlightsSection(items = [], heading = {}) {
   `;
 }
 
+function renderRejectionsSection(items = [], heading = {}) {
+  const listItems = items
+    .map((item) => {
+      const links = Array.isArray(item.links)
+        ? item.links
+            .map(
+              (link) =>
+                `<a href="${escapeHtml(safeUrl(link.url))}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label || "Link")}</a>`,
+            )
+            .join(" ")
+        : "";
+
+      return `
+        <li>
+          <span class="announcement-date">[${escapeHtml(item.date || "Date")}]</span>
+          ${escapeHtml(item.text || "Add a rejection note here.")}
+          ${links}
+        </li>
+      `;
+    })
+    .join("");
+
+  const listHtml = listItems
+    ? listItems
+    : `
+        <li>
+          <span class="announcement-date">[Date]</span>
+          Add a rejection note here.
+        </li>
+      `;
+
+  return `
+    <section class="panel" id="rejections">
+      <p class="kicker">${escapeHtml(heading.kicker || "Rejections")}</p>
+      <h2>${escapeHtml(heading.title || "Rejections")}</h2>
+      <ul class="announcement-list">
+        ${listHtml}
+      </ul>
+    </section>
+  `;
+}
+
 function renderPublicationsSection(publications = [], heading = {}) {
   const publicationCards = publications
     .map((pub) => {
@@ -452,6 +495,7 @@ async function loadFromDataFile(root) {
     root.innerHTML = [
       renderHeroSection(data.hero || {}, data.contact || {}),
       renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
+      renderRejectionsSection(data.rejections || [], data.rejectionsHeading || {}),
       renderPublicationsSection(data.publications || [], data.publicationsHeading || {}),
       renderContactSection(data.contact || {}),
     ].join("");

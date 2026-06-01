@@ -39,6 +39,7 @@ Edit only:
 	- `lastUpdated` controls footer updated time.
 - `hero`: name, role line, photo, intro
 - `highlightsHeading` + `highlights`: updates and announcements
+- `rejectionsHeading` + `rejections`: date + one-line rejection notes
 - `publicationsHeading` + `publications`: papers and links
 - `contact`: direct contact values + optional custom items
 
