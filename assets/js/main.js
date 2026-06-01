@@ -1,10 +1,12 @@
-const sectionFiles = [
-  "sections/01-hero.html",
-  "sections/05-highlights.html",
-  "sections/03-rejections.html",
-  "sections/04-publications.html",
-  "sections/06-contact.html",
-];
+const sectionFilesByPage = {
+  home: [
+    "sections/01-hero.html",
+    "sections/05-highlights.html",
+    "sections/04-publications.html",
+    "sections/06-contact.html",
+  ],
+  rejections: ["sections/03-rejections.html"],
+};
 
 const dataFile = "assets/data/site-content.json";
 
@@ -100,14 +102,17 @@ async function loadSections() {
     return;
   }
 
-  const loadedFromData = await loadFromDataFile(root);
+  const page = document.body?.dataset?.page || "home";
+
+  const loadedFromData = await loadFromDataFile(root, page);
   if (loadedFromData) {
     initSectionSpy();
     initPanelReveal();
     return;
   }
 
-  for (const path of sectionFiles) {
+  const fallbackFiles = sectionFilesByPage[page] || sectionFilesByPage.home;
+  for (const path of fallbackFiles) {
     try {
       const res = await fetch(`${path}?v=${assetVersion}`);
       if (!res.ok) {
@@ -482,7 +487,7 @@ function renderContactSection(contact = {}) {
   `;
 }
 
-async function loadFromDataFile(root) {
+async function loadFromDataFile(root, page = "home") {
   try {
     const response = await fetch(`${dataFile}?v=${assetVersion}`);
     if (!response.ok) {
@@ -492,10 +497,16 @@ async function loadFromDataFile(root) {
     const data = await response.json();
     applySiteMeta(data.site || {});
 
+    const normalizedPage = typeof page === "string" ? page.trim().toLowerCase() : "home";
+
+    if (normalizedPage === "rejections") {
+      root.innerHTML = [renderRejectionsSection(data.rejections || [], data.rejectionsHeading || {})].join("");
+      return true;
+    }
+
     root.innerHTML = [
       renderHeroSection(data.hero || {}, data.contact || {}),
       renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
-      renderRejectionsSection(data.rejections || [], data.rejectionsHeading || {}),
       renderPublicationsSection(data.publications || [], data.publicationsHeading || {}),
       renderContactSection(data.contact || {}),
     ].join("");

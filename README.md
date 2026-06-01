@@ -20,6 +20,7 @@ No build tools, no framework setup, and no npm required.
 ## Project Structure
 
 - `index.html`: Main HTML shell
+- `rejections.html`: Optional secondary page (loads only the Rejections section)
 - `assets/css/style.css`: Styling and responsive layout
 - `assets/js/main.js`: Data loader and section renderer
 - `assets/data/site-content.json`: Main editable content
