@@ -351,9 +351,11 @@ function renderHeroSection(hero = {}, contact = {}) {
 
   return `
     <section class="panel hero" id="about">
-      <h1 class="post-title">${escapeHtml(hero.name || "Your Name")}</h1>
-      ${subtitle ? `<p class="post-description">${subtitle}</p>` : ""}
       <div class="about-grid">
+        <div class="about-head">
+          <h1 class="post-title">${escapeHtml(hero.name || "Your Name")}</h1>
+          ${subtitle ? `<p class="post-description">${subtitle}</p>` : ""}
+        </div>
         <div class="hero-copy">${paragraphsHtml}</div>
         <div class="profile">
           <img

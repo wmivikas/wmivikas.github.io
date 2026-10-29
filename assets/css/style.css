@@ -327,12 +327,28 @@ a.brand-name:hover {
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 200px;
+  grid-template-areas:
+    "head photo"
+    "copy photo";
+  /* The photo column spans both rows, so it starts level with the name. */
+  grid-template-rows: auto 1fr;
   gap: 0 3rem;
   align-items: start;
 }
 
+.about-head {
+  grid-area: head;
+}
+
+.hero-copy {
+  grid-area: copy;
+}
+
 .profile {
+  grid-area: photo;
   margin: 0;
+  /* Nudge the circle's top edge to line up with the cap height of the name. */
+  margin-top: 0.35rem;
 }
 
 .profile img {
@@ -707,13 +723,18 @@ ol.bibliography .links {
     padding-top: 1.5rem;
   }
 
+  /* Phones: name, then photo, then text. */
   .about-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "head"
+      "photo"
+      "copy";
+    grid-template-rows: auto;
     gap: 0;
   }
 
   .profile {
-    order: -1;
     width: 60%;
     max-width: 220px;
     margin: 0 auto 1.75rem;
