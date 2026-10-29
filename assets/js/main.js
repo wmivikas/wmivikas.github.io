@@ -37,33 +37,9 @@ function updateThemeToggle(theme) {
   }
 }
 
-function setDynamicFavicon(theme) {
-  const bg = theme === "dark" ? "#1c1c1d" : "#ffffff";
-  const fg = theme === "dark" ? "#2698ba" : "#b509ac";
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="VK favicon">
-      <rect width="64" height="64" rx="10" fill="${bg}"/>
-      <rect x="2" y="2" width="60" height="60" rx="9" fill="none" stroke="${fg}" stroke-width="3"/>
-      <path d="M14 18h8l10 22 10-22h8L36 50h-8z" fill="${fg}"/>
-    </svg>
-  `;
-  const url = `data:image/svg+xml,${encodeURIComponent(svg.trim())}`;
-
-  let favicon = document.querySelector('link[rel="icon"]');
-  if (!favicon) {
-    favicon = document.createElement("link");
-    favicon.setAttribute("rel", "icon");
-    document.head.appendChild(favicon);
-  }
-
-  favicon.setAttribute("type", "image/svg+xml");
-  favicon.setAttribute("href", url);
-}
-
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   updateThemeToggle(theme);
-  setDynamicFavicon(theme);
 }
 
 function initTheme() {
