@@ -14,7 +14,7 @@ Live at <https://wmivikas.github.io>.
 | Social and contact links | `_data/socials.yml` |
 | Publications | `_bibliography/papers.bib` |
 | News items | one file per item in `_news/` |
-| Profile photo | `assets/img/prof_pic.png` |
+| Profile photo | `assets/img/prof_pic.jpg` |
 | Favicon and iOS icon | `assets/img/apple-touch-icon.png` |
 
 ### Adding a publication

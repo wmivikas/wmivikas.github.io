@@ -6,7 +6,7 @@ subtitle: PhD Student · <a href='https://eecs.iiserb.ac.in/'>Department of EECS
 
 profile:
   align: right
-  image: prof_pic.png
+  image: prof_pic.jpg
   image_circular: true # crops the image to make it circular
   more_info: >
     <p>Bhopal, Madhya Pradesh, India</p>
