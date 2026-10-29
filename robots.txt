@@ -1,5 +1,7 @@
+---
+permalink: /robots.txt
+---
 User-agent: *
-Allow: /
-Disallow: /rejections.html
+Disallow:
 
-Sitemap: https://wmivikas.github.io/sitemap.xml
+Sitemap: {{ site.baseurl | prepend: site.url }}/sitemap.xml
