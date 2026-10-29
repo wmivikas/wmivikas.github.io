@@ -26,7 +26,6 @@ No build tools, no framework setup, and no npm required.
 ## Project Structure
 
 - `index.html`: Main HTML shell
-- `rejections.html`: Optional secondary page (loads only the Rejections section)
 - `assets/css/style.css`: Styling and responsive layout
 - `assets/js/main.js`: Data loader and section renderer
 - `assets/data/site-content.json`: Main editable content
@@ -52,7 +51,6 @@ Edit only:
 	  `paragraphs` (plain text, no links) is used only if `paragraphsHtml` is missing.
 	- `imageCaptionHtml` is the small address block under the photo; use `<br />` for line breaks.
 - `highlightsHeading` + `highlights`: the `news` table (`date`, `text`, `links`)
-- `rejectionsHeading` + `rejections`: same shape as news; `rejectionsHeading.intro` adds a lead line
 - `publicationsHeading` + `publications`: papers, grouped by `year` automatically (newest first)
 	- `abbr`: short venue tag shown in the coloured badge, e.g. `NeurIPS`
 	- `authors`: full author list as one string

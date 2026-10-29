@@ -53,28 +53,6 @@
       ]
     }
   ],
-  "rejectionsHeading": {
-    "kicker": "Rejections",
-    "title": "rejections",
-    "intro": "A public log of papers, applications and programmes that did not work out. Keeping it visible keeps it honest."
-  },
-  "rejections": [
-    {
-      "date": "May 2026",
-      "text": "IEEE TAFFC paper on EDA-based SA and NSA analysis was rejected.",
-      "links": []
-    },
-    {
-      "date": "May 2026",
-      "text": "Application to the AI4Science 2026 Summer School was rejected.",
-      "links": [
-        {
-          "label": "AI4Science",
-          "url": "https://www.aiforscience.school/"
-        }
-      ]
-    }
-  ],
   "publicationsHeading": {
     "kicker": "Publications",
     "title": "selected publications"

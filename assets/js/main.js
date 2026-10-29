@@ -4,7 +4,6 @@ const sectionFilesByPage = {
     "sections/05-highlights.html",
     "sections/04-publications.html",
   ],
-  rejections: ["sections/03-rejections.html"],
 };
 
 const dataFile = "assets/data/site-content.json";
@@ -260,7 +259,7 @@ function applySiteMeta(site = {}) {
   }
 
   const brand = document.querySelector(".brand-name");
-  if (brand && site.brandName && document.body?.dataset?.page !== "rejections") {
+  if (brand && site.brandName) {
     brand.textContent = site.brandName;
   }
 
@@ -369,7 +368,7 @@ function renderHeroSection(hero = {}, contact = {}) {
   `;
 }
 
-/* ---------------- news / rejections tables ---------------- */
+/* ---------------- news table ---------------- */
 
 function renderNewsRows(items = [], emptyText = "Nothing here yet.") {
   if (!items.length) {
@@ -398,20 +397,6 @@ function renderHighlightsSection(items = [], heading = {}) {
       <h2 class="section-title">${escapeHtml(heading.title || "news")}</h2>
       <table class="news-table">
         <tbody>${renderNewsRows(items, "No updates yet.")}</tbody>
-      </table>
-    </section>
-  `;
-}
-
-function renderRejectionsSection(items = [], heading = {}) {
-  const intro = heading.intro ? `<p>${escapeHtml(heading.intro)}</p>` : "";
-
-  return `
-    <section class="panel" id="rejections">
-      <h2 class="section-title">${escapeHtml(heading.title || "rejections")}</h2>
-      ${intro}
-      <table class="news-table">
-        <tbody>${renderNewsRows(items, "No rejections logged yet.")}</tbody>
       </table>
     </section>
   `;
@@ -523,11 +508,6 @@ async function loadFromDataFile(root, page = "home") {
 
     const normalizedPage = typeof page === "string" ? page.trim().toLowerCase() : "home";
     const meName = data.site?.authorName || data.hero?.name || "";
-
-    if (normalizedPage === "rejections") {
-      root.innerHTML = renderRejectionsSection(data.rejections || [], data.rejectionsHeading || {});
-      return true;
-    }
 
     root.innerHTML = [
       renderHeroSection(data.hero || {}, data.contact || {}),
