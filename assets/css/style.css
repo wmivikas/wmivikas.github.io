@@ -309,7 +309,7 @@ a.brand-name:hover {
 .post-description {
   color: var(--global-text-color-light);
   font-size: 1.05rem;
-  margin: 0 0 2rem;
+  margin: 0 0 1.5rem;
 }
 
 .post-description a {
@@ -326,8 +326,8 @@ a.brand-name:hover {
    caption all share one baseline grid and nothing wraps unpredictably. */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 260px;
-  gap: 0 2.5rem;
+  grid-template-columns: 1fr 200px;
+  gap: 0 3rem;
   align-items: start;
 }
 
@@ -346,7 +346,7 @@ a.brand-name:hover {
 }
 
 .profile .profile-caption {
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
   font-size: 0.85rem;
   line-height: 1.45;
   text-align: center;
@@ -365,7 +365,7 @@ a.brand-name:hover {
 
 /* Lives in the photo column, centred under the picture and caption. */
 .social {
-  margin-top: 0.9rem;
+  margin-top: 0.4rem;
   text-align: center;
 }
 
@@ -391,8 +391,8 @@ a.brand-name:hover {
 }
 
 .social .email-text {
-  margin: 0.5rem 0 0;
-  font-size: 0.9rem;
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
   color: var(--global-text-color-light);
 }
 
