@@ -27,6 +27,11 @@
 
   --container-width: 936px;
   --nav-height: 56px;
+
+  /* Shared left column for news dates and publication badges, so the news
+     text and the publication titles start on the same vertical line. */
+  --meta-col: 7rem;
+  --meta-gap: 1.5rem;
 }
 
 :root[data-theme="dark"] {
@@ -304,11 +309,17 @@ a.brand-name:hover {
   color: var(--global-theme-color);
 }
 
+/* Two real columns instead of a float, so the text block, the photo and the
+   caption all share one baseline grid and nothing wraps unpredictably. */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 0 2.5rem;
+  align-items: start;
+}
+
 .profile {
-  float: right;
-  width: 34%;
-  max-width: 260px;
-  margin: 0 0 1.5rem 2rem;
+  margin: 0;
 }
 
 .profile img {
@@ -339,8 +350,9 @@ a.brand-name:hover {
 /* ---------------- social icon row ---------------- */
 
 .social {
-  clear: both;
   margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--global-divider-color);
   text-align: center;
 }
 
@@ -390,7 +402,8 @@ a.brand-name:hover {
 }
 
 .news-table .news-date {
-  width: 7rem;
+  width: calc(var(--meta-col) + var(--meta-gap));
+  padding-right: 0;
   white-space: nowrap;
   color: var(--global-text-color-light);
   font-size: 0.9rem;
@@ -427,8 +440,8 @@ ol.bibliography {
 ol.bibliography li {
   margin-bottom: 1.75rem;
   display: grid;
-  grid-template-columns: 7rem 1fr;
-  gap: 0 1.25rem;
+  grid-template-columns: var(--meta-col) 1fr;
+  gap: 0 var(--meta-gap);
   align-items: start;
 }
 
@@ -519,26 +532,37 @@ ol.bibliography .links {
   list-style: none;
   margin: 1rem 0 0;
   padding: 0;
+  max-width: 34rem;
+}
+
+/* icon | label | value — one shared column track, so every value starts on
+   the same vertical line however long the labels are. */
+.contact-item--plain,
+.contact-row-link {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0.5rem 1.5rem;
+  /* Sums to --meta-col + --meta-gap, so contact values line up with the news
+     text and publication titles above. */
+  grid-template-columns: 1.5rem 6rem 1fr;
+  align-items: center;
+  gap: 0 0.5rem;
+}
+
+.contact-item--plain {
+  padding: 0.5rem 0;
 }
 
 .contact-item {
-  display: flex;
+  border-bottom: 1px solid var(--global-divider-color);
 }
 
-.contact-row-link,
-.contact-item > .contact-icon {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
+.contact-item:last-child {
+  border-bottom: 0;
 }
 
 .contact-row-link {
   color: var(--global-text-color);
   text-decoration: none;
-  padding: 0.35rem 0;
+  padding: 0.5rem 0;
 }
 
 .contact-row-link:hover {
@@ -613,6 +637,11 @@ ol.bibliography .links {
 /* ---------------- responsive ---------------- */
 
 @media (max-width: 700px) {
+  :root {
+    --meta-col: 4.5rem;
+    --meta-gap: 0.75rem;
+  }
+
   /* The fixed bar cannot hold brand + links on one line here, so it becomes
      a static two-row header and the links scroll sideways instead of wrapping. */
   body {
@@ -654,15 +683,29 @@ ol.bibliography .links {
     padding-top: 1.5rem;
   }
 
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
   .profile {
-    float: none;
-    width: 55%;
+    order: -1;
+    width: 60%;
     max-width: 220px;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 1.75rem;
   }
 
   .profile .profile-caption {
     text-align: center;
+  }
+
+  .contact-item--plain,
+  .contact-row-link {
+    grid-template-columns: 1.5rem 1fr;
+  }
+
+  .contact-label {
+    display: none;
   }
 
   ol.bibliography li {

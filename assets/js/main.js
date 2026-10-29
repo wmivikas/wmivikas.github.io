@@ -310,11 +310,14 @@ function applySiteMeta(site = {}) {
     const updatedValue = typeof site.lastUpdated === "string" ? site.lastUpdated.trim() : "";
     let displayValue = "";
 
+    const formatDate = (date) =>
+      new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(date);
+
     if (updatedValue) {
       const parsedDate = new Date(updatedValue);
-      displayValue = Number.isNaN(parsedDate.getTime()) ? updatedValue : parsedDate.toLocaleString();
+      displayValue = Number.isNaN(parsedDate.getTime()) ? updatedValue : formatDate(parsedDate);
     } else {
-      displayValue = new Date().toLocaleString();
+      displayValue = formatDate(new Date());
     }
 
     footerLastUpdated.textContent = `Updated ${displayValue}`;
@@ -367,14 +370,16 @@ function renderHeroSection(hero = {}, contact = {}) {
     <section class="panel hero" id="about">
       <h1 class="post-title">${escapeHtml(hero.name || "Your Name")}</h1>
       ${subtitle ? `<p class="post-description">${subtitle}</p>` : ""}
-      <div class="profile">
-        <img
-          src="${escapeHtml(hero.imageSrc || "assets/images/profile-photo.svg")}"
-          alt="${escapeHtml(hero.imageAlt || "Profile photo")}"
-        />
-        ${caption}
+      <div class="about-grid">
+        <div class="hero-copy">${paragraphsHtml}</div>
+        <div class="profile">
+          <img
+            src="${escapeHtml(hero.imageSrc || "assets/images/profile-photo.svg")}"
+            alt="${escapeHtml(hero.imageAlt || "Profile photo")}"
+          />
+          ${caption}
+        </div>
       </div>
-      <div class="hero-copy">${paragraphsHtml}</div>
       ${renderSocialRow(contact)}
     </section>
   `;
@@ -541,7 +546,7 @@ function renderContactSection(contact = {}) {
         `;
       }
 
-      return `<li class="contact-item">${icon}${label}<span class="contact-value">${value}</span></li>`;
+      return `<li class="contact-item contact-item--plain">${icon}${label}<span class="contact-value">${value}</span></li>`;
     })
     .join("");
 
@@ -694,6 +699,9 @@ function initSectionSpy() {
     const idFromHash = window.location.hash.slice(1);
     if (sectionById.has(idFromHash)) {
       setActive(idFromHash);
+      // The browser already tried to jump here before the sections existed,
+      // so scroll again now that they do.
+      scrollToSection(idFromHash);
       return;
     }
   }
