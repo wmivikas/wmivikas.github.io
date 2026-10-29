@@ -1,0 +1,12 @@
+# Social links shown under the about section, in the order defined here.
+# See https://github.com/george-gca/jekyll-socials for every supported key.
+# Anything left out is simply not shown.
+email: vikas25@iiserb.ac.in
+github_username: wmivikas
+linkedin_username: wmivikas
+cv_pdf: https://iiser-my.sharepoint.com/:b:/g/personal/vikas25_iiserb_ac_in/IQDhuT8KAacsSaA_YzXnVaR8Acw9GAmsmstzeCD9lXopfZU?e=qRwy3Y
+# Fill these in when you have them, and the icons appear automatically:
+# scholar_userid: # your Google Scholar user ID
+# orcid_id: # your ORCID iD
+# x_username: # your X / Twitter handle
+rss_icon: false
