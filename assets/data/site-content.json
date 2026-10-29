@@ -1,45 +1,51 @@
 {
   "site": {
-    "title": "Vikas | PhD Profile",
-    "description": "Academic profile website template for students and researchers.",
-    "brandName": "Vikas Kumar",
-    "footerName": "Vikas",
+    "title": "Vikas Kumar",
+    "description": "Vikas Kumar — PhD student, EECS, IISER Bhopal. Research on intelligent systems and applied machine learning.",
+    "brandName": "vikas kumar",
+    "footerName": "Vikas Kumar",
+    "authorName": "Vikas Kumar",
     "templateVersion": "",
-    "lastUpdated": "2026-03-28T18:30:00+05:30"
+    "lastUpdated": "2026-10-29T10:00:00+05:30"
   },
   "hero": {
     "kicker": "About",
     "name": "Vikas Kumar",
     "metaLine": "PhD Student, EECS, IISER Bhopal | SIRL Lab",
+    "subtitleHtml": "PhD Student, <a href=\"https://eecs.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">Department of EECS</a>, <a href=\"https://www.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">IISER Bhopal</a> · <a href=\"https://sirl-lab.github.io/\" target=\"_blank\" rel=\"noopener noreferrer\">SIRL Lab</a>",
     "imageSrc": "assets/images/pic_vikas_1.png",
-    "imageAlt": "Vikas Kumar profile photo",
+    "imageAlt": "Vikas Kumar",
+    "imageCaptionHtml": "Department of EECS<br />IISER Bhopal<br />Bhopal, Madhya Pradesh, India",
     "paragraphsHtml": [
-      "I am currently pursuing my PhD at <a href=\"https://www.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">IISER Bhopal</a> in the <a href=\"https://eecs.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">EECS Department</a>. My research focuses on intelligent systems and practical engineering for real-world deployment, and I work with the <a href=\"https://sirl-lab.github.io/\" target=\"_blank\" rel=\"noopener noreferrer\">SIRL Lab</a>."
+      "I am a PhD student in the <a href=\"https://eecs.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">Department of Electrical Engineering and Computer Science</a> at <a href=\"https://www.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">IISER Bhopal</a>, where I am a member of the <a href=\"https://sirl-lab.github.io/\" target=\"_blank\" rel=\"noopener noreferrer\">SIRL Lab</a>.",
+      "My research is on intelligent systems and applied machine learning — in particular, building models that hold up outside the lab: learning from noisy, real-world signals and turning them into systems that can actually be deployed.",
+      "Alongside research, I like building and shipping small tools, and I keep a public <a href=\"rejections.html\">log of my rejections</a> because the setbacks are part of the record too.",
+      "Feel free to reach out if you would like to collaborate, discuss ideas, or just talk research."
     ],
     "paragraphs": [
-      "I am currently pursuing my PhD at IISER Bhopal in the EECS Department.",
-      "My research focuses on intelligent systems and practical engineering for real-world deployment.",
-      "I work with the SIRL Lab and enjoy building applied AI systems."
+      "I am a PhD student in the Department of EECS at IISER Bhopal, where I am a member of the SIRL Lab.",
+      "My research is on intelligent systems and applied machine learning, with a focus on models that work outside the lab.",
+      "Feel free to reach out if you would like to collaborate or discuss ideas."
     ]
   },
   "highlightsHeading": {
-    "kicker": "Highlights",
-    "title": "Updates & Announcements"
+    "kicker": "News",
+    "title": "news"
   },
   "highlights": [
     {
       "date": "Mar 2026",
-      "text": "Poster presentation at EECS Symposium 2026 at IISER Bhopal.",
+      "text": "Poster presentation at the EECS Symposium 2026, IISER Bhopal.",
       "links": [
         {
-          "label": "View Poster",
+          "label": "poster",
           "url": "https://iiser-my.sharepoint.com/:p:/g/personal/vikas25_iiserb_ac_in/IQAK_FLbtZwlQJNPVzGAHy6pAeeS6oMsjvmAJgisEA7kVjk?e=j9Uq6Q&nav=eyJzSWQiOjI1OCwiY0lkIjozNjY5Mzg0MTY3fQ"
         }
       ]
     },
     {
       "date": "Dec 2025",
-      "text": "Selected for IndoML 2025 at BITS Pilani Hyderabad Campus.",
+      "text": "Selected for IndoML 2025 at BITS Pilani, Hyderabad Campus.",
       "links": [
         {
           "label": "IndoML 2025",
@@ -50,66 +56,83 @@
   ],
   "rejectionsHeading": {
     "kicker": "Rejections",
-    "title": "Rejections (Date + One Line)"
+    "title": "rejections",
+    "intro": "A public log of papers, applications and programmes that did not work out. Keeping it visible keeps it honest."
   },
   "rejections": [
     {
-      "date": "Jun 2026",
-      "text": "Add your rejection note here (one line).",
+      "date": "May 2026",
+      "text": "IEEE TAFFC paper on EDA-based SA and NSA analysis was rejected.",
       "links": []
+    },
+    {
+      "date": "May 2026",
+      "text": "Application to the AI4Science 2026 Summer School was rejected.",
+      "links": [
+        {
+          "label": "AI4Science",
+          "url": "https://www.aiforscience.school/"
+        }
+      ]
     }
   ],
   "publicationsHeading": {
     "kicker": "Publications",
-    "title": "Selected Publications"
+    "title": "selected publications"
   },
   "publications": [
     {
       "title": "Paper Title One",
-      "meta": "Vikas Kumar, Co-author A, Co-author B | Conference/Journal (2026)",
-      "summary": "Brief summary of this paper: key problem, approach, and main contribution.",
+      "abbr": "Venue",
+      "authors": "Vikas Kumar, Co-author A, Co-author B",
+      "venue": "Conference or Journal Name",
+      "year": "2026",
+      "summary": "One or two lines on the problem, the approach, and the main result.",
       "thumbnail": "assets/images/paper-thumb-1.svg",
       "thumbnailAlt": "Paper thumbnail 1",
       "links": [
         {
-          "label": "Paper",
-          "url": "#"
+          "label": "PDF",
+          "url": ""
         },
         {
           "label": "Code",
-          "url": "#"
+          "url": ""
         },
         {
           "label": "Project",
-          "url": "#"
+          "url": ""
         }
       ]
     },
     {
       "title": "Paper Title Two",
-      "meta": "Vikas Kumar, Co-author C | Conference/Journal (2025)",
-      "summary": "Brief summary of this paper and its practical significance.",
+      "abbr": "Venue",
+      "authors": "Vikas Kumar, Co-author C",
+      "venue": "Conference or Journal Name",
+      "year": "2025",
+      "summary": "One or two lines on what this paper does and why it matters in practice.",
       "thumbnail": "assets/images/paper-thumb-2.svg",
       "thumbnailAlt": "Paper thumbnail 2",
       "links": [
         {
-          "label": "Paper",
-          "url": "#"
+          "label": "PDF",
+          "url": ""
         },
         {
           "label": "Poster",
-          "url": "#"
+          "url": ""
         },
         {
           "label": "Video",
-          "url": "#"
+          "url": ""
         }
       ]
     }
   ],
   "contact": {
     "kicker": "Contact",
-    "title": "Get In Touch",
+    "title": "contact",
     "intro": "I am open to research collaborations, academic discussions, and speaking opportunities.",
     "email": "vikas25@iiserb.ac.in",
     "linkedin": "wmivikas",
@@ -117,11 +140,11 @@
     "github": "wmivikas",
     "githubUrl": "https://github.com/wmivikas",
     "googleScholar": "",
-    "googleScholarLabel": "Scholar Profile",
+    "googleScholarLabel": "Scholar profile",
     "cv": "https://iiser-my.sharepoint.com/:b:/g/personal/vikas25_iiserb_ac_in/IQDhuT8KAacsSaA_YzXnVaR8Acw9GAmsmstzeCD9lXopfZU?e=qRwy3Y",
     "cvLabel": "Download CV",
     "orcid": "",
-    "orcidLabel": "ORCID Profile",
+    "orcidLabel": "ORCID profile",
     "twitter": "",
     "twitterUrl": "",
     "twitterLabel": "@handle",
