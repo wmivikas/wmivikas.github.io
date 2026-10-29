@@ -3,32 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <title>Rejections · Vikas Kumar</title>
     <meta name="description" content="A public log of rejections — papers, applications and programmes." />
+    <meta name="robots" content="noindex" />
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
     <link rel="shortcut icon" href="assets/images/favicon.svg" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#b509ac" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
-    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Runs before first paint so dark-mode visitors never see a white flash. -->
     <script>
       (function () {
-        const assetVersion = Date.now().toString();
-        window.__ASSET_VERSION__ = assetVersion;
-        const stylesheet = document.createElement("link");
-        stylesheet.rel = "stylesheet";
-        stylesheet.href = `assets/css/style.css?v=${assetVersion}`;
-        document.head.appendChild(stylesheet);
+        document.documentElement.classList.add("js");
+        try {
+          const saved = localStorage.getItem("site-theme");
+          const theme =
+            saved === "light" || saved === "dark"
+              ? saved
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (error) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
       })();
     </script>
   </head>
   <body data-page="rejections">
+    <a class="skip-link" href="#profile-content">Skip to content</a>
     <div id="progress-container"><div id="progress"></div></div>
 
     <header class="site-header">
@@ -39,7 +50,6 @@
           <a href="index.html#news">news</a>
           <a href="index.html#publications">publications</a>
           <a href="index.html#contact">contact</a>
-          <a href="rejections.html" class="is-active" aria-current="page">rejections</a>
         </nav>
         <button
           type="button"
@@ -67,13 +77,6 @@
       </p>
     </footer>
 
-    <script>
-      (function () {
-        const assetVersion = window.__ASSET_VERSION__ || Date.now().toString();
-        const mainScript = document.createElement("script");
-        mainScript.src = `assets/js/main.js?v=${assetVersion}`;
-        document.body.appendChild(mainScript);
-      })();
-    </script>
+    <script src="assets/js/main.js"></script>
   </body>
 </html>

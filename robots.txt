@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /rejections.html
+
+Sitemap: https://wmivikas.github.io/sitemap.xml

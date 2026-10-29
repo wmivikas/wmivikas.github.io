@@ -102,6 +102,25 @@ hr {
   color: #fff;
 }
 
+/* ---------------- skip link ---------------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 1200;
+  padding: 0.6rem 1rem;
+  background: var(--global-theme-color);
+  color: #fff;
+  border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+  left: 0;
+  color: #fff;
+  text-decoration: none;
+}
+
 /* ---------------- scroll progress bar ---------------- */
 
 #progress-container {
@@ -224,12 +243,17 @@ a.brand-name:hover {
 
 .panel {
   margin-bottom: 3rem;
+}
+
+/* Only hide panels for the fade-in when scripting is actually available,
+   so a failed script never leaves the page blank. */
+:root.js .panel {
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.panel.is-visible {
+:root.js .panel.is-visible {
   opacity: 1;
   transform: none;
 }
@@ -238,7 +262,7 @@ a.brand-name:hover {
   html {
     scroll-behavior: auto;
   }
-  .panel {
+  :root.js .panel {
     opacity: 1;
     transform: none;
     transition: none;
@@ -290,8 +314,11 @@ a.brand-name:hover {
 .profile img {
   display: block;
   width: 100%;
-  border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 25%;
+  border-radius: 50%;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.16);
 }
 
 .profile .profile-caption {

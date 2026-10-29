@@ -19,12 +19,13 @@
     "paragraphsHtml": [
       "I am a PhD student in the <a href=\"https://eecs.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">Department of Electrical Engineering and Computer Science</a> at <a href=\"https://www.iiserb.ac.in/\" target=\"_blank\" rel=\"noopener noreferrer\">IISER Bhopal</a>, where I am a member of the <a href=\"https://sirl-lab.github.io/\" target=\"_blank\" rel=\"noopener noreferrer\">SIRL Lab</a>.",
       "My research is on intelligent systems and applied machine learning — in particular, building models that hold up outside the lab: learning from noisy, real-world signals and turning them into systems that can actually be deployed.",
-      "Alongside research, I like building and shipping small tools, and I keep a public <a href=\"rejections.html\">log of my rejections</a> because the setbacks are part of the record too.",
+      "Alongside research, I enjoy building and shipping small, practical tools.",
       "Feel free to reach out if you would like to collaborate, discuss ideas, or just talk research."
     ],
     "paragraphs": [
       "I am a PhD student in the Department of EECS at IISER Bhopal, where I am a member of the SIRL Lab.",
       "My research is on intelligent systems and applied machine learning, with a focus on models that work outside the lab.",
+      "Alongside research, I enjoy building and shipping small, practical tools.",
       "Feel free to reach out if you would like to collaborate or discuss ideas."
     ]
   },
