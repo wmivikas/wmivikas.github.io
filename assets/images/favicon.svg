@@ -1,5 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="VK favicon">
-  <rect width="64" height="64" rx="10" fill="#ffffff"/>
-  <rect x="2" y="2" width="60" height="60" rx="9" fill="none" stroke="#b509ac" stroke-width="3"/>
-  <path d="M14 18h8l10 22 10-22h8L36 50h-8z" fill="#b509ac"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="V">
+  <defs>
+    <linearGradient id="vk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d81ad0" />
+      <stop offset="55%" stop-color="#b509ac" />
+      <stop offset="100%" stop-color="#2698ba" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#vk)" />
+  <!-- Stroked chevron: stays legible down to 16px and needs no font. -->
+  <path
+    d="M18 18 L32 44 L46 18"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 </svg>
