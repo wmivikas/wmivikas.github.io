@@ -349,6 +349,7 @@ a.brand-name:hover {
   margin-top: 0.6rem;
   font-size: 0.85rem;
   line-height: 1.45;
+  text-align: center;
   color: var(--global-text-color-light);
 }
 
@@ -362,10 +363,9 @@ a.brand-name:hover {
 
 /* ---------------- social icon row ---------------- */
 
+/* Lives in the photo column, centred under the picture and caption. */
 .social {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--global-divider-color);
+  margin-top: 0.9rem;
   text-align: center;
 }
 
@@ -397,6 +397,7 @@ a.brand-name:hover {
 }
 
 .social .email-text a {
+  display: block;
   color: var(--global-text-color-light);
   text-decoration: none;
 }

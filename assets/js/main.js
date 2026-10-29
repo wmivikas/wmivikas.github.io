@@ -324,7 +324,7 @@ function renderSocialRow(contact = {}) {
     emailParts.push(externalLink(contact.cv, contact.cvLabel || "Download CV"));
   }
   const emailLine = emailParts.length
-    ? `<p class="email-text">${emailParts.join(" · ")}</p>`
+    ? `<p class="email-text">${emailParts.join("")}</p>`
     : "";
 
   return `
@@ -361,9 +361,9 @@ function renderHeroSection(hero = {}, contact = {}) {
             alt="${escapeHtml(hero.imageAlt || "Profile photo")}"
           />
           ${caption}
+          ${renderSocialRow(contact)}
         </div>
       </div>
-      ${renderSocialRow(contact)}
     </section>
   `;
 }
