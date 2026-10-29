@@ -1,0 +1,4 @@
+# Used by the deploy workflow: nbconvert renders any Jupyter notebooks that
+# jekyll-jupyter-notebook includes. This file must exist because the workflow's
+# Setup Python step caches pip against it.
+nbconvert
