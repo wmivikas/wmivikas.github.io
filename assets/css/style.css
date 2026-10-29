@@ -107,6 +107,19 @@ hr {
   color: #fff;
 }
 
+/* Chrome's default ring is a bright white halo on dark backgrounds, which
+   looked like a bug on the round theme button. Show a themed ring for
+   keyboard users only. */
+:focus-visible {
+  outline: 2px solid var(--global-theme-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* ---------------- skip link ---------------- */
 
 .skip-link {
@@ -378,9 +391,19 @@ a.brand-name:hover {
 }
 
 .social .email-text {
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 0;
   font-size: 0.9rem;
   color: var(--global-text-color-light);
+}
+
+.social .email-text a {
+  color: var(--global-text-color-light);
+  text-decoration: none;
+}
+
+.social .email-text a:hover {
+  color: var(--global-theme-color);
+  text-decoration: underline;
 }
 
 /* ---------------- news table ---------------- */

@@ -59,8 +59,11 @@ Edit only:
 	- `venue`: full venue name, shown in italics with the year
 	- `summary`: one or two lines of abstract
 	- `links`: buttons under the entry; an entry with an empty `url` is hidden
-- `contact`: direct contact values + optional custom items
-	- These same values also drive the social-icon row on the about section.
+- `contact`: the links behind the social-icon row under the about section
+	- Any value left empty is simply not shown, icon and all.
+	- `email` and `cv` are also printed as text under the icons, since a bare
+	  envelope or document icon does not tell a visitor what it is.
+	- `items` adds extra custom entries (`label`, `value`, `url`).
 
 ## Copy-Paste Starter Content
 
@@ -115,8 +118,6 @@ Replace the full `assets/data/site-content.json` with this minimal starter:
 		}
 	],
 	"contact": {
-		"title": "contact",
-		"intro": "Open to collaborations and discussions.",
 		"email": "you@example.com",
 		"linkedin": "your-linkedin-handle",
 		"linkedinUrl": "https://www.linkedin.com/in/your-profile/",

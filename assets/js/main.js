@@ -3,7 +3,6 @@ const sectionFilesByPage = {
     "sections/01-hero.html",
     "sections/05-highlights.html",
     "sections/04-publications.html",
-    "sections/06-contact.html",
   ],
   rejections: ["sections/03-rejections.html"],
 };
@@ -316,8 +315,17 @@ function renderSocialRow(contact = {}) {
     )
     .join("");
 
-  const emailLine = contact.email
-    ? `<p class="email-text">${escapeHtml(contact.email)}</p>`
+  const emailParts = [];
+  if (contact.email) {
+    emailParts.push(
+      `<a href="mailto:${escapeHtml(contact.email)}">${escapeHtml(contact.email)}</a>`,
+    );
+  }
+  if (contact.cv) {
+    emailParts.push(externalLink(contact.cv, contact.cvLabel || "Download CV"));
+  }
+  const emailLine = emailParts.length
+    ? `<p class="email-text">${emailParts.join(" · ")}</p>`
     : "";
 
   return `
@@ -503,40 +511,6 @@ function renderPublicationsSection(publications = [], heading = {}, meName = "")
   `;
 }
 
-/* ---------------- contact ---------------- */
-
-function renderContactSection(contact = {}) {
-  const itemList = collectContactEntries(contact)
-    .map((item) => {
-      const value = escapeHtml(item.value || "");
-      const icon = `<span class="contact-icon" aria-hidden="true">${iconFor(item.label || "")}</span>`;
-      const label = `<span class="contact-label">${escapeHtml(item.label || "")}</span>`;
-
-      if (item.url) {
-        return `
-          <li class="contact-item">
-            <a class="contact-row-link" href="${escapeHtml(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">
-              ${icon}${label}<span class="contact-value">${value}</span>
-            </a>
-          </li>
-        `;
-      }
-
-      return `<li class="contact-item contact-item--plain">${icon}${label}<span class="contact-value">${value}</span></li>`;
-    })
-    .join("");
-
-  return `
-    <section class="panel" id="contact">
-      <h2 class="section-title">${escapeHtml(contact.title || "contact")}</h2>
-      <p>${escapeHtml(contact.intro || "")}</p>
-      <ul class="contact-list">
-        ${itemList}
-      </ul>
-    </section>
-  `;
-}
-
 async function loadFromDataFile(root, page = "home") {
   try {
     const response = await fetch(`${dataFile}?v=${assetVersion}`);
@@ -559,7 +533,6 @@ async function loadFromDataFile(root, page = "home") {
       renderHeroSection(data.hero || {}, data.contact || {}),
       renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
       renderPublicationsSection(data.publications || [], data.publicationsHeading || {}, meName),
-      renderContactSection(data.contact || {}),
     ].join("");
 
     return true;
