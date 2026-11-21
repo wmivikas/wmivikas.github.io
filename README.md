@@ -41,6 +41,20 @@ Each paper in `publications.items` has:
 Section headings and their emoji are set in `publications.selectedHeading` and
 `publications.groups`.
 
+## Changing the tab icon
+
+The icon is one image: `assets/images/tab_icon.png`.
+
+1. Replace `assets/images/tab_icon.png` with your new image, keeping the same
+   name. Use a square PNG, ideally 180×180 or larger; a transparent background
+   is fine.
+2. Replace `assets/images/apple-touch-icon.png` too. Phones use this one when
+   someone adds the site to their home screen. Use a 180×180 PNG **without**
+   transparency, because iPhones fill transparent areas with black.
+3. In `index.html` and `404.html`, raise the `?v=` number after both icon
+   file names (for example `?v=3` to `?v=4`). Browsers keep icons for a long
+   time and only fetch the new one when the link changes.
+
 ## Files
 
 - `index.html` — page shell, share-preview tags, theme script
