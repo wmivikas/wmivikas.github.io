@@ -1,181 +1,9 @@
-const sectionFilesByPage = {
-  home: [
-    "sections/01-hero.html",
-    "sections/05-highlights.html",
-    "sections/04-publications.html",
-  ],
-};
-
-const dataFile = "assets/data/site-content.json";
-
-const assetVersion = window.__ASSET_VERSION__ || Date.now().toString();
-
-const themeStorageKey = "site-theme";
-
-function getSystemTheme() {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
-
-function updateThemeToggle(theme) {
-  const toggle = document.getElementById("theme-toggle");
-  const icon = document.getElementById("theme-toggle-icon");
-
-  if (!toggle || !icon) {
-    return;
-  }
-
-  if (theme === "dark") {
-    icon.textContent = "☀";
-    toggle.setAttribute("aria-label", "Switch to light mode");
-    toggle.setAttribute("title", "Switch to light mode");
-  } else {
-    icon.textContent = "☾";
-    toggle.setAttribute("aria-label", "Switch to dark mode");
-    toggle.setAttribute("title", "Switch to dark mode");
-  }
-}
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  updateThemeToggle(theme);
-}
-
-function initTheme() {
-  const savedTheme = localStorage.getItem(themeStorageKey);
-  const initialTheme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : getSystemTheme();
-
-  applyTheme(initialTheme);
-
-  const toggle = document.getElementById("theme-toggle");
-  if (toggle) {
-    toggle.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme") || "light";
-      const nextTheme = current === "dark" ? "light" : "dark";
-      localStorage.setItem(themeStorageKey, nextTheme);
-      applyTheme(nextTheme);
-    });
-  }
-
-  const media = window.matchMedia("(prefers-color-scheme: dark)");
-  media.addEventListener("change", (event) => {
-    if (!localStorage.getItem(themeStorageKey)) {
-      applyTheme(event.matches ? "dark" : "light");
-    }
-  });
-}
-
-function initProgressBar() {
-  const bar = document.getElementById("progress");
-  if (!bar) {
-    return;
-  }
-
-  const render = () => {
-    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    const ratio = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
-    bar.style.width = `${(ratio * 100).toFixed(2)}%`;
-  };
-
-  render();
-  window.addEventListener("scroll", render, { passive: true });
-  window.addEventListener("resize", render);
-}
-
-async function loadSections() {
-  const root = document.getElementById("profile-content");
-
-  if (!root) {
-    return;
-  }
-
-  const page = document.body?.dataset?.page || "home";
-
-  const loadedFromData = await loadFromDataFile(root, page);
-  if (loadedFromData) {
-    initSectionSpy();
-    initPanelReveal();
-    return;
-  }
-
-  const fallbackFiles = sectionFilesByPage[page] || sectionFilesByPage.home;
-  for (const path of fallbackFiles) {
-    try {
-      const res = await fetch(`${path}?v=${assetVersion}`);
-      if (!res.ok) {
-        throw new Error(`Failed to load ${path}`);
-      }
-      const html = await res.text();
-      root.insertAdjacentHTML("beforeend", html);
-    } catch (error) {
-      root.insertAdjacentHTML(
-        "beforeend",
-        `<section class="panel"><h2 class="section-title">Section Load Error</h2><p>${String(error)}</p></section>`,
-      );
-    }
-  }
-
-  initSectionSpy();
-  initPanelReveal();
-}
-
-function initPanelReveal() {
-  const panels = Array.from(document.querySelectorAll(".panel"));
-  if (!panels.length) {
-    return;
-  }
-
-  panels.forEach((panel, index) => {
-    panel.style.transitionDelay = `${Math.min(index * 70, 420)}ms`;
-  });
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      rootMargin: "0px 0px -8% 0px",
-      threshold: 0.05,
-    },
-  );
-
-  panels.forEach((panel) => observer.observe(panel));
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function safeUrl(value) {
-  const url = String(value ?? "").trim();
-  if (!url) {
-    return "#";
-  }
-
-  if (/^(https?:|mailto:|tel:|#|\/)/i.test(url)) {
-    return url;
-  }
-
-  return "#";
-}
-
-function externalLink(url, label, className = "") {
-  const classAttr = className ? ` class="${className}"` : "";
-  return `<a${classAttr} href="${escapeHtml(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
-}
-
-/* ---------------- shared icon set ---------------- */
-
-const socialIcons = {
+/* Inline SVG icons (16x16, currentColor) used by the sidebar. */
+const icons = {
+  location:
+    '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a5.5 5.5 0 0 0-5.5 5.5C2.5 9.6 8 16 8 16s5.5-6.4 5.5-10.5A5.5 5.5 0 0 0 8 0zm0 8a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>',
+  institution:
+    '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0 .5 3.5V5h15V3.5L8 0zM1.5 6v6h2V6h-2zm4 0v6h2V6h-2zm3 0v6h2V6h-2zm4 0v6h2V6h-2zM.5 13v1.5h15V13H.5zM0 15.5V16h16v-.5H0z"/></svg>',
   email:
     '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v.217L8 8.917.001 4.217V4zm0 1.383v6.617a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5.383L8.4 9.8a1 1 0 0 1-1.2 0L0 5.383z"/></svg>',
   linkedin:
@@ -191,497 +19,461 @@ const socialIcons = {
     '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.2 6.8 14.2 1h-1.2L8.7 6 5.3 1H1.2l5.3 7.7L1.2 15h1.2l4.7-5.5 3.8 5.5H15L9.2 6.8zM7.7 8.5l-.5-.7L3.6 2.6h1.9L8.3 6.6l.5.7 3.8 5.3h-1.9L7.7 8.5z"/></svg>',
   link: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3a.5.5 0 0 1 .5.5v2h6.793L9.146 2.854a.5.5 0 1 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 1 1-.708-.708L11.793 6.5H5v2a.5.5 0 0 1-1 0v-5A.5.5 0 0 1 4.5 3z"/></svg>',
 };
+const dataFile = "assets/data/site-content.json";
+const themeStorageKey = "site-theme";
 
-const iconKeyByLabel = {
-  Email: "email",
-  LinkedIn: "linkedin",
-  GitHub: "github",
-  "Google Scholar": "scholar",
-  CV: "cv",
-  ORCID: "orcid",
-  "X/Twitter": "twitter",
-};
+/* ---------------- theme ---------------- */
 
-/* Builds the ordered list of contact entries shared by the social row
-   and the contact section, so both stay in sync from one data block. */
-function collectContactEntries(contact = {}) {
-  const entries = [];
-
-  if (contact.email) {
-    entries.push({ label: "Email", value: contact.email, url: `mailto:${contact.email}` });
-  }
-  if (contact.googleScholar) {
-    entries.push({
-      label: "Google Scholar",
-      value: contact.googleScholarLabel || "Profile",
-      url: contact.googleScholar,
-    });
-  }
-  if (contact.github) {
-    entries.push({ label: "GitHub", value: contact.github, url: contact.githubUrl || contact.github });
-  }
-  if (contact.linkedin) {
-    entries.push({ label: "LinkedIn", value: contact.linkedin, url: contact.linkedinUrl || contact.linkedin });
-  }
-  if (contact.orcid) {
-    entries.push({ label: "ORCID", value: contact.orcidLabel || contact.orcid, url: contact.orcid });
-  }
-  if (contact.twitter) {
-    entries.push({
-      label: "X/Twitter",
-      value: contact.twitterLabel || contact.twitter,
-      url: contact.twitterUrl || contact.twitter,
-    });
-  }
-  if (contact.cv) {
-    entries.push({ label: "CV", value: contact.cvLabel || "Download CV", url: contact.cv });
-  }
-
-  if (Array.isArray(contact.items)) {
-    entries.push(...contact.items);
-  }
-
-  return entries;
+function getSystemTheme() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function iconFor(label) {
-  return socialIcons[iconKeyByLabel[label]] || socialIcons.link;
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+
+  const toggle = document.getElementById("theme-toggle");
+  const icon = document.getElementById("theme-toggle-icon");
+  if (!toggle || !icon) {
+    return;
+  }
+
+  const next = theme === "dark" ? "light" : "dark";
+  icon.textContent = theme === "dark" ? "☀" : "☾";
+  toggle.setAttribute("aria-label", `Switch to ${next} mode`);
+  toggle.setAttribute("title", `Switch to ${next} mode`);
 }
+
+function initTheme() {
+  let saved = null;
+  try {
+    saved = localStorage.getItem(themeStorageKey);
+  } catch {
+    saved = null;
+  }
+  applyTheme(saved === "light" || saved === "dark" ? saved : getSystemTheme());
+
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme") || "light";
+    const next = current === "dark" ? "light" : "dark";
+    try {
+      localStorage.setItem(themeStorageKey, next);
+    } catch {
+      /* private mode: the choice just won't persist */
+    }
+    applyTheme(next);
+  });
+
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+    let saved = null;
+    try {
+      saved = localStorage.getItem(themeStorageKey);
+    } catch {
+      saved = null;
+    }
+    if (!saved) {
+      applyTheme(event.matches ? "dark" : "light");
+    }
+  });
+}
+
+/* ---------------- helpers ---------------- */
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function safeUrl(value) {
+  const url = String(value ?? "").trim();
+  return /^(https?:|mailto:|tel:|#|\/|[\w.-]+\.html)/i.test(url) ? url : "";
+}
+
+function externalLink(url, label) {
+  const href = safeUrl(url);
+  if (!href) {
+    return "";
+  }
+  const isExternal = /^https?:/i.test(href);
+  const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
+  return `<a href="${escapeHtml(href)}"${target}>${escapeHtml(label)}</a>`;
+}
+
+function hasItems(value) {
+  return Array.isArray(value) && value.length > 0;
+}
+
+/* Section heading with an optional emoji, matching the reference layout. */
+function sectionTitle(section = {}, fallback) {
+  const emoji = section.emoji ? `<span class="emoji" aria-hidden="true">${escapeHtml(section.emoji)}</span>` : "";
+  return `<h2 class="section-title">${emoji}${escapeHtml(section.title || fallback)}</h2>`;
+}
+
+/* `html` fields are trusted author content from the JSON file; plain fields are escaped. */
+function paragraphs(list = []) {
+  return list
+    .filter((text) => typeof text === "string" && text.trim())
+    .map((text) => `<p>${text}</p>`)
+    .join("");
+}
+
+/* ---------------- sidebar ---------------- */
+
+function renderSidebar(profile = {}, contact = {}) {
+  const rows = [];
+
+  if (profile.location) {
+    rows.push(`<li>${icons.location}<span>${escapeHtml(profile.location)}</span></li>`);
+  }
+  if (profile.institution) {
+    const label = profile.institutionUrl
+      ? externalLink(profile.institutionUrl, profile.institution)
+      : `<span>${escapeHtml(profile.institution)}</span>`;
+    rows.push(`<li>${icons.institution}${label}</li>`);
+  }
+
+  const linkRows = [
+    ["email", contact.email ? `mailto:${contact.email}` : "", "Email"],
+    ["scholar", contact.googleScholar, "Google Scholar"],
+    ["github", contact.githubUrl, "GitHub"],
+    ["linkedin", contact.linkedinUrl, "LinkedIn"],
+    ["orcid", contact.orcid, "ORCID"],
+    ["twitter", contact.twitterUrl, "X / Twitter"],
+    ["cv", contact.cv, "CV"],
+  ];
+  linkRows.forEach(([icon, url, label]) => {
+    const link = externalLink(url, label);
+    if (link) {
+      rows.push(`<li>${icons[icon]}${link}</li>`);
+    }
+  });
+
+  return `
+    <img class="avatar" src="${escapeHtml(profile.avatar || "")}" alt="${escapeHtml(profile.avatarAlt || profile.name || "")}" />
+    <h1 class="author-name">${escapeHtml(profile.name || "")}</h1>
+    ${profile.bio ? `<p class="author-bio">${escapeHtml(profile.bio)}</p>` : ""}
+    <ul class="author-links">${rows.join("")}</ul>
+  `;
+}
+
+/* ---------------- sections ---------------- */
+
+function renderAbout(about = {}) {
+  return `
+    <section id="about">
+      <h2 class="page-title">${escapeHtml(about.title || "")}</h2>
+      <div class="prose">${paragraphs(about.paragraphsHtml)}</div>
+    </section>
+  `;
+}
+
+function renderNews(news = {}) {
+  if (!hasItems(news.items)) {
+    return "";
+  }
+
+  const items = news.items
+    .map((item) => {
+      const links = (item.links || []).map((link) => externalLink(link.url, link.label)).filter(Boolean);
+      return `
+        <li>
+          <span class="news-date">${escapeHtml(item.date || "")}</span>
+          <span>${escapeHtml(item.text || "")}${links.length ? ` ${links.join(" · ")}` : ""}</span>
+        </li>
+      `;
+    })
+    .join("");
+
+  return `
+    <section id="news">
+      ${sectionTitle(news, "News")}
+      <ul class="news-list">${items}</ul>
+    </section>
+  `;
+}
+
+function renderResearch(research = {}) {
+  if (!hasItems(research.paragraphsHtml)) {
+    return "";
+  }
+  return `
+    <section id="research">
+      ${sectionTitle(research, "Research")}
+      <div class="prose">${paragraphs(research.paragraphsHtml)}</div>
+    </section>
+  `;
+}
+
+/* Bold the site owner's name wherever it appears in an author list. */
+function renderAuthors(authors, meName) {
+  const escaped = escapeHtml(authors || "");
+  if (!meName) {
+    return escaped;
+  }
+  const me = escapeHtml(meName);
+  return escaped.split(me).join(`<span class="me">${me}</span>`);
+}
+
+function paperHeading(paper) {
+  const links = (paper.links || [])
+    .map((link) => externalLink(link.url, `[${link.label}]`))
+    .filter(Boolean)
+    .join("");
+  return `
+    <h3 class="paper-title">
+      ${escapeHtml(paper.title || "")}${links ? ` <span class="paper-links">${links}</span>` : ""}
+    </h3>
+  `;
+}
+
+function paperVenue(paper) {
+  const venue = [paper.venue, paper.year].filter(Boolean).join(" ");
+  return venue ? `<p class="paper-venue">${escapeHtml(venue)}</p>` : "";
+}
+
+function renderPaperCard(paper, meName) {
+  const badge = paper.badge ? `<span class="badge">${escapeHtml(paper.badge)}</span>` : "";
+  const figure = paper.image
+    ? `<figure class="paper-figure">
+         ${badge}
+         <img src="${escapeHtml(paper.image)}" alt="${escapeHtml(paper.imageAlt || paper.title || "")}" loading="lazy" />
+       </figure>`
+    : "";
+
+  return `
+    <article class="paper-card">
+      ${figure}
+      <div>
+        ${paperHeading(paper)}
+        <p class="paper-authors">${renderAuthors(paper.authors, meName)}</p>
+        ${paperVenue(paper)}
+        ${paper.summary ? `<p class="paper-summary">${escapeHtml(paper.summary)}</p>` : ""}
+      </div>
+    </article>
+  `;
+}
+
+function renderPaperListItem(paper, meName) {
+  return `
+    <li>
+      ${paperHeading(paper)}
+      <p class="paper-authors">${renderAuthors(paper.authors, meName)}</p>
+      ${paperVenue(paper)}
+    </li>
+  `;
+}
+
+/* Selected papers render as image cards; everything else is listed once,
+   under its category (conference papers, journal papers, preprints, ...). */
+function renderPublications(publications = {}, meName = "") {
+  const items = publications.items || [];
+  if (!items.length) {
+    return "";
+  }
+
+  const parts = [];
+  const selected = items.filter((paper) => paper.selected);
+  if (selected.length) {
+    parts.push(`
+      <section id="publications">
+        ${sectionTitle(publications.selectedHeading, "Selected Publications")}
+        ${selected.map((paper) => renderPaperCard(paper, meName)).join("")}
+      </section>
+    `);
+  }
+
+  (publications.groups || []).forEach((group, index) => {
+    const papers = items.filter((paper) => !paper.selected && paper.category === group.key);
+    if (!papers.length) {
+      return;
+    }
+    // The first visible publication block carries the nav anchor.
+    const id = !selected.length && index === 0 ? ' id="publications"' : "";
+    parts.push(`
+      <section${id}>
+        ${sectionTitle(group, group.key)}
+        <ul class="paper-list">${papers.map((paper) => renderPaperListItem(paper, meName)).join("")}</ul>
+      </section>
+    `);
+  });
+
+  return parts.join("");
+}
+
+function renderTimeline(block = {}, id, fallback) {
+  if (!hasItems(block.items)) {
+    return "";
+  }
+
+  const items = block.items
+    .map((item) => {
+      const place = item.url ? externalLink(item.url, item.place) : escapeHtml(item.place || "");
+      const details = (item.details || []).map((line) => `<p class="detail">${escapeHtml(line)}</p>`).join("");
+      return `
+        <li>
+          <span class="when">${escapeHtml(item.when || "")}</span>
+          <div>
+            <p class="where">${place}</p>
+            ${details}
+          </div>
+        </li>
+      `;
+    })
+    .join("");
+
+  return `
+    <section id="${id}">
+      ${sectionTitle(block, fallback)}
+      <ul class="timeline">${items}</ul>
+    </section>
+  `;
+}
+
+function renderContact(contactSection = {}) {
+  if (!hasItems(contactSection.paragraphsHtml)) {
+    return "";
+  }
+  return `
+    <section id="contact">
+      ${sectionTitle(contactSection, "Contact")}
+      <div class="prose">${paragraphs(contactSection.paragraphsHtml)}</div>
+    </section>
+  `;
+}
+
+/* ---------------- page assembly ---------------- */
 
 function applySiteMeta(site = {}) {
   if (site.title) {
     document.title = site.title;
   }
 
-  const desc = document.querySelector('meta[name="description"]');
-  if (desc && site.description) {
-    desc.setAttribute("content", site.description);
+  const owner = document.getElementById("footer-owner");
+  if (owner && site.footerName) {
+    owner.textContent = site.footerName;
   }
 
-  const brand = document.querySelector(".brand-name");
-  if (brand && site.brandName) {
-    brand.textContent = site.brandName;
-  }
-
-  const footerOwner = document.getElementById("footer-owner");
-  if (footerOwner && site.footerName) {
-    footerOwner.textContent = site.footerName;
-  }
-
-  const footerVersion = document.getElementById("footer-template-version");
-  if (footerVersion) {
-    if (site.templateVersion) {
-      footerVersion.textContent = `Template ${site.templateVersion}`;
-      footerVersion.hidden = false;
-    } else {
-      footerVersion.textContent = "";
-      footerVersion.hidden = true;
-    }
-  }
-
-  const footerLastUpdated = document.getElementById("footer-last-updated");
-  if (footerLastUpdated) {
-    const updatedValue = typeof site.lastUpdated === "string" ? site.lastUpdated.trim() : "";
-    let displayValue = "";
-
-    const formatDate = (date) =>
-      new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(date);
-
-    if (updatedValue) {
-      const parsedDate = new Date(updatedValue);
-      displayValue = Number.isNaN(parsedDate.getTime()) ? updatedValue : formatDate(parsedDate);
-    } else {
-      displayValue = formatDate(new Date());
-    }
-
-    footerLastUpdated.textContent = `Updated ${displayValue}`;
-    footerLastUpdated.hidden = false;
+  const updated = document.getElementById("footer-last-updated");
+  const value = typeof site.lastUpdated === "string" ? site.lastUpdated.trim() : "";
+  if (updated && value) {
+    const date = new Date(value);
+    const label = Number.isNaN(date.getTime())
+      ? value
+      : new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" }).format(date);
+    updated.textContent = `Last updated ${label}.`;
+    updated.hidden = false;
   }
 }
 
-/* ---------------- about ---------------- */
-
-function renderSocialRow(contact = {}) {
-  const entries = collectContactEntries(contact).filter((entry) => entry.url);
-  if (!entries.length) {
-    return "";
-  }
-
-  const icons = entries
-    .map(
-      (entry) =>
-        `<a href="${escapeHtml(safeUrl(entry.url))}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(entry.label)}" aria-label="${escapeHtml(entry.label)}">${iconFor(entry.label)}</a>`,
-    )
-    .join("");
-
-  const emailParts = [];
-  if (contact.email) {
-    emailParts.push(
-      `<a href="mailto:${escapeHtml(contact.email)}">${escapeHtml(contact.email)}</a>`,
-    );
-  }
-  if (contact.cv) {
-    emailParts.push(externalLink(contact.cv, contact.cvLabel || "Download CV"));
-  }
-  const emailLine = emailParts.length
-    ? `<p class="email-text">${emailParts.join("")}</p>`
-    : "";
-
-  return `
-    <div class="social">
-      <div class="social-icons">${icons}</div>
-      ${emailLine}
-    </div>
-  `;
-}
-
-function renderHeroSection(hero = {}, contact = {}) {
-  const paragraphsHtmlRaw = Array.isArray(hero.paragraphsHtml)
-    ? hero.paragraphsHtml.filter((text) => typeof text === "string" && text.trim())
-    : [];
-  const paragraphs = Array.isArray(hero.paragraphs) ? hero.paragraphs : [];
-  const paragraphsHtml = paragraphsHtmlRaw.length
-    ? paragraphsHtmlRaw.map((text) => `<p>${text}</p>`).join("")
-    : paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
-
-  const subtitle = hero.subtitleHtml || escapeHtml(hero.metaLine || "");
-  const caption = hero.imageCaptionHtml
-    ? `<div class="profile-caption">${hero.imageCaptionHtml}</div>`
-    : "";
-
-  return `
-    <section class="panel hero" id="about">
-      <div class="about-grid">
-        <div class="about-head">
-          <h1 class="post-title">${escapeHtml(hero.name || "Your Name")}</h1>
-          ${subtitle ? `<p class="post-description">${subtitle}</p>` : ""}
-        </div>
-        <div class="hero-copy">${paragraphsHtml}</div>
-        <div class="profile">
-          <img
-            src="${escapeHtml(hero.imageSrc || "assets/images/profile-photo.svg")}"
-            alt="${escapeHtml(hero.imageAlt || "Profile photo")}"
-          />
-          ${caption}
-          ${renderSocialRow(contact)}
-        </div>
-      </div>
-    </section>
-  `;
-}
-
-/* ---------------- news table ---------------- */
-
-function renderNewsRows(items = [], emptyText = "Nothing here yet.") {
-  if (!items.length) {
-    return `<tr><td class="news-date">—</td><td class="news-text">${escapeHtml(emptyText)}</td></tr>`;
-  }
-
-  return items
-    .map((item) => {
-      const links = Array.isArray(item.links)
-        ? item.links.map((link) => externalLink(link.url, link.label || "Link")).join(" · ")
-        : "";
-
-      return `
-        <tr>
-          <td class="news-date">${escapeHtml(item.date || "")}</td>
-          <td class="news-text">${escapeHtml(item.text || "")}${links ? ` ${links}` : ""}</td>
-        </tr>
-      `;
-    })
-    .join("");
-}
-
-function renderHighlightsSection(items = [], heading = {}) {
-  return `
-    <section class="panel" id="news">
-      <h2 class="section-title">${escapeHtml(heading.title || "news")}</h2>
-      <table class="news-table">
-        <tbody>${renderNewsRows(items, "No updates yet.")}</tbody>
-      </table>
-    </section>
-  `;
-}
-
-/* ---------------- publications ---------------- */
-
-function renderAuthors(pub = {}, meName = "") {
-  const authors = typeof pub.authors === "string" ? pub.authors : "";
-  if (!authors) {
-    return escapeHtml(pub.meta || "");
-  }
-
-  const escaped = escapeHtml(authors);
-  if (!meName) {
-    return escaped;
-  }
-
-  const escapedMe = escapeHtml(meName);
-  return escaped.split(escapedMe).join(`<span class="me">${escapedMe}</span>`);
-}
-
-function renderPublicationEntry(pub = {}, meName = "") {
-  const links = Array.isArray(pub.links)
-    ? pub.links
-        .filter((link) => link && link.url && safeUrl(link.url) !== "#")
-        .map((link) => externalLink(link.url, link.label || "Link", "btn-sm"))
-        .join("")
-    : "";
-
-  const badge = pub.abbr
-    ? `<abbr class="badge" title="${escapeHtml(pub.venue || pub.abbr)}">${escapeHtml(pub.abbr)}</abbr>`
-    : "";
-  const thumb = pub.thumbnail
-    ? `<img class="pub-thumb" src="${escapeHtml(pub.thumbnail)}" alt="${escapeHtml(pub.thumbnailAlt || "Publication thumbnail")}" />`
-    : "";
-
-  const periodicalParts = [pub.venue, pub.year].filter(Boolean).map((part) => escapeHtml(part));
-  const periodical = periodicalParts.length
-    ? `<div class="periodical"><em>${periodicalParts.join(", ")}</em></div>`
-    : "";
-
-  const abstract = pub.summary ? `<p class="abstract">${escapeHtml(pub.summary)}</p>` : "";
-
-  return `
-    <li>
-      <div class="pub-aside">${badge}${thumb}</div>
-      <div class="pub-body">
-        <div class="title">${escapeHtml(pub.title || "Paper Title")}</div>
-        <div class="author">${renderAuthors(pub, meName)}</div>
-        ${periodical}
-        ${abstract}
-        ${links ? `<div class="links">${links}</div>` : ""}
-      </div>
-    </li>
-  `;
-}
-
-function renderPublicationsSection(publications = [], heading = {}, meName = "") {
-  const byYear = new Map();
-  publications.forEach((pub) => {
-    const year = String(pub.year || "").trim() || "Preprints";
-    if (!byYear.has(year)) {
-      byYear.set(year, []);
-    }
-    byYear.get(year).push(pub);
+/* Hide nav links whose section is empty and therefore not rendered. */
+function pruneNav() {
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach((link) => {
+    const target = document.getElementById(link.getAttribute("href").slice(1));
+    link.hidden = !target;
   });
-
-  const sortedYears = Array.from(byYear.keys()).sort((a, b) => {
-    const numA = Number.parseInt(a, 10);
-    const numB = Number.parseInt(b, 10);
-    if (Number.isNaN(numA) && Number.isNaN(numB)) return a.localeCompare(b);
-    if (Number.isNaN(numA)) return -1;
-    if (Number.isNaN(numB)) return 1;
-    return numB - numA;
-  });
-
-  const groups = sortedYears
-    .map(
-      (year) => `
-        <h2 class="year">${escapeHtml(year)}</h2>
-        <ol class="bibliography">
-          ${byYear
-            .get(year)
-            .map((pub) => renderPublicationEntry(pub, meName))
-            .join("")}
-        </ol>
-      `,
-    )
-    .join("");
-
-  return `
-    <section class="panel publications" id="publications">
-      <h2 class="section-title">${escapeHtml(heading.title || "selected publications")}</h2>
-      ${groups}
-    </section>
-  `;
-}
-
-async function loadFromDataFile(root, page = "home") {
-  try {
-    const response = await fetch(`${dataFile}?v=${assetVersion}`);
-    if (!response.ok) {
-      return false;
-    }
-
-    const data = await response.json();
-    applySiteMeta(data.site || {});
-
-    const normalizedPage = typeof page === "string" ? page.trim().toLowerCase() : "home";
-    const meName = data.site?.authorName || data.hero?.name || "";
-
-    root.innerHTML = [
-      renderHeroSection(data.hero || {}, data.contact || {}),
-      renderHighlightsSection(data.highlights || [], data.highlightsHeading || {}),
-      renderPublicationsSection(data.publications || [], data.publicationsHeading || {}, meName),
-    ].join("");
-
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 function initSectionSpy() {
-  const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
-  if (!links.length) {
+  const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]')).filter((link) => !link.hidden);
+  const sections = links
+    .map((link) => document.getElementById(link.getAttribute("href").slice(1)))
+    .filter(Boolean);
+  if (!sections.length) {
     return;
   }
-
-  const sectionBadge = document.getElementById("current-section");
-
-  const sectionById = new Map();
-  const labelById = new Map();
-  links.forEach((link) => {
-    const id = link.getAttribute("href")?.slice(1);
-    if (!id) {
-      return;
-    }
-    const section = document.getElementById(id);
-    if (section) {
-      sectionById.set(id, section);
-      labelById.set(id, (link.textContent || id).trim());
-    }
-  });
-
-  const sections = Array.from(sectionById.entries()).map(([id, section]) => ({ id, section }));
 
   const setActive = (id) => {
     links.forEach((link) => {
       const active = link.getAttribute("href") === `#${id}`;
       link.classList.toggle("is-active", active);
       if (active) {
-        link.setAttribute("aria-current", "page");
+        link.setAttribute("aria-current", "true");
       } else {
         link.removeAttribute("aria-current");
       }
     });
-
-    if (sectionBadge) {
-      sectionBadge.textContent = labelById.get(id) || "Section";
-    }
   };
 
-  const scrollToSection = (id) => {
-    const section = sectionById.get(id);
-    if (!section) {
-      return;
-    }
-
+  const update = () => {
     const header = document.querySelector(".site-header");
-    const headerHeight = header ? header.getBoundingClientRect().height : 0;
-    const offset = headerHeight + 18;
-    const top = window.scrollY + section.getBoundingClientRect().top - offset;
-    window.scrollTo({ top, behavior: "smooth" });
-  };
-
-  links.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      const id = link.getAttribute("href")?.slice(1);
-      if (!id || !sectionById.has(id)) {
-        return;
+    const marker = (header ? header.getBoundingClientRect().height : 0) + 40;
+    let active = sections[0].id;
+    sections.forEach((section) => {
+      if (section.getBoundingClientRect().top <= marker) {
+        active = section.id;
       }
-      event.preventDefault();
-      setActive(id);
-      scrollToSection(id);
-      history.replaceState(null, "", `#${id}`);
     });
-  });
-
-  const resolveActiveByScroll = () => {
-    if (!sections.length) {
-      return;
+    // Scrolled to the very bottom, the last section is the one being read. Only
+    // when the page actually scrolls; otherwise this would fire at the top.
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight > 2;
+    if (scrollable && window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      active = sections[sections.length - 1].id;
     }
-
-    const header = document.querySelector(".site-header");
-    const headerHeight = header ? header.getBoundingClientRect().height : 0;
-    const marker = window.scrollY + headerHeight + 28;
-
-    let activeId = sections[0].id;
-    for (const item of sections) {
-      const absoluteTop = window.scrollY + item.section.getBoundingClientRect().top;
-      if (absoluteTop <= marker) {
-        activeId = item.id;
-      } else {
-        break;
-      }
-    }
-
-    setActive(activeId);
+    setActive(active);
   };
 
-  let rafToken = 0;
+  let queued = false;
   const onScroll = () => {
-    if (rafToken) {
+    if (queued) {
       return;
     }
-
-    rafToken = window.requestAnimationFrame(() => {
-      resolveActiveByScroll();
-      rafToken = 0;
+    queued = true;
+    window.requestAnimationFrame(() => {
+      update();
+      queued = false;
     });
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
-
-  if (window.location.hash) {
-    const idFromHash = window.location.hash.slice(1);
-    if (sectionById.has(idFromHash)) {
-      setActive(idFromHash);
-      // The browser already tried to jump here before the sections existed,
-      // so scroll again now that they do.
-      scrollToSection(idFromHash);
-      return;
-    }
-  }
-
-  resolveActiveByScroll();
+  update();
 }
 
-function setYear() {
-  const yearNode = document.getElementById("year");
-  if (yearNode) {
-    yearNode.textContent = String(new Date().getFullYear());
-  }
-}
-
-function initLocalClock() {
-  const clockNode = document.getElementById("footer-local-clock");
-  if (!clockNode) {
+async function loadPage() {
+  const content = document.getElementById("profile-content");
+  const sidebar = document.getElementById("sidebar");
+  if (!content || !sidebar) {
     return;
   }
 
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local";
+  let data;
+  try {
+    const response = await fetch(`${dataFile}?v=${Date.now()}`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    data = await response.json();
+  } catch (error) {
+    content.innerHTML = `<p>Could not load the page content (${escapeHtml(error.message)}). Please refresh.</p>`;
+    return;
+  }
 
-  const renderClock = () => {
-    const now = new Date();
-    const dateText = new Intl.DateTimeFormat(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-      weekday: "short",
-      timeZone,
-    }).format(now);
+  applySiteMeta(data.site);
+  const meName = data.site?.authorName || data.profile?.name || "";
 
-    const timeText = new Intl.DateTimeFormat(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone,
-      hour12: true,
-    }).format(now);
+  sidebar.innerHTML = renderSidebar(data.profile, data.contact);
+  content.innerHTML = [
+    renderAbout(data.about),
+    renderNews(data.news),
+    renderResearch(data.research),
+    renderPublications(data.publications, meName),
+    renderTimeline(data.education, "education", "Education"),
+    renderTimeline(data.experience, "experience", "Experience"),
+    renderContact(data.contactSection),
+  ].join("");
 
-    clockNode.textContent = `${dateText}, ${timeText}`;
-    clockNode.hidden = false;
-  };
+  pruneNav();
+  initSectionSpy();
 
-  renderClock();
-  window.setInterval(renderClock, 30000);
+  // The browser tried to jump to #hash before the sections existed.
+  if (window.location.hash) {
+    document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+  }
 }
 
+document.getElementById("year").textContent = String(new Date().getFullYear());
 initTheme();
-initProgressBar();
-setYear();
-initLocalClock();
-loadSections();
+loadPage();
