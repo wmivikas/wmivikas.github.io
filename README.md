@@ -49,6 +49,12 @@ Section headings and their emoji are set in `publications.selectedHeading` and
 - `assets/images/` — profile photo, paper figures, icons
 - `404.html` — page-not-found
 
+When you change `style.css` or `main.js`, also change the `?v=...` number after
+them in `index.html` (and the CSS one in `404.html`). Browsers keep those files
+for 10 minutes; a new number makes them fetch the new version straight away
+instead of mixing the new page with old files. Content edits in the JSON file
+don't need this.
+
 ## Local preview
 
 ```bash
