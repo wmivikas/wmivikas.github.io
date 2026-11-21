@@ -7,7 +7,6 @@
   },
   "profile": {
     "name": "Vikas Kumar",
-    "bio": "PhD Student · SIRL Lab",
     "avatar": "assets/images/pic_vikas_1.jpg",
     "avatarAlt": "Vikas Kumar",
     "location": "Bhopal, India",
@@ -16,12 +15,12 @@
   },
   "contact": {
     "email": "vikas25@iiserb.ac.in",
-    "githubUrl": "https://github.com/wmivikas",
-    "linkedinUrl": "https://www.linkedin.com/in/wmivikas/",
+    "githubUrl": "",
+    "linkedinUrl": "",
     "googleScholar": "",
     "orcid": "",
     "twitterUrl": "",
-    "cv": "https://iiser-my.sharepoint.com/:b:/g/personal/vikas25_iiserb_ac_in/IQDhuT8KAacsSaA_YzXnVaR8Acw9GAmsmstzeCD9lXopfZU?e=qRwy3Y"
+    "cv": ""
   },
   "about": {
     "title": "Vikas Kumar",
@@ -68,9 +67,21 @@
       "title": "Selected Publications"
     },
     "groups": [
-      { "key": "conference", "emoji": "📝", "title": "Conference Papers" },
-      { "key": "journal", "emoji": "📄", "title": "Journal Papers" },
-      { "key": "preprint", "emoji": "🚀", "title": "Preprints" }
+      {
+        "key": "conference",
+        "emoji": "📝",
+        "title": "Conference Papers"
+      },
+      {
+        "key": "journal",
+        "emoji": "📄",
+        "title": "Journal Papers"
+      },
+      {
+        "key": "preprint",
+        "emoji": "🚀",
+        "title": "Preprints"
+      }
     ],
     "items": [
       {
@@ -84,7 +95,12 @@
         "imageAlt": "Overview figure for Paper Title One",
         "selected": true,
         "category": "conference",
-        "links": [{ "label": "Paper", "url": "" }]
+        "links": [
+          {
+            "label": "Paper",
+            "url": ""
+          }
+        ]
       },
       {
         "title": "Paper Title Two",
@@ -97,7 +113,12 @@
         "imageAlt": "Overview figure for Paper Title Two",
         "selected": true,
         "category": "conference",
-        "links": [{ "label": "Paper", "url": "" }]
+        "links": [
+          {
+            "label": "Paper",
+            "url": ""
+          }
+        ]
       }
     ]
   },
@@ -109,7 +130,10 @@
         "when": "Present",
         "place": "Indian Institute of Science Education and Research (IISER) Bhopal",
         "url": "https://www.iiserb.ac.in/",
-        "details": ["PhD student, Department of Electrical Engineering and Computer Science", "SIRL Lab"]
+        "details": [
+          "PhD student, Department of Electrical Engineering and Computer Science",
+          "SIRL Lab"
+        ]
       }
     ]
   },

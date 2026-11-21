@@ -457,8 +457,8 @@ async function loadPage() {
   sidebar.innerHTML = renderSidebar(data.profile, data.contact);
   content.innerHTML = [
     renderAbout(data.about),
-    renderNews(data.news),
     renderResearch(data.research),
+    renderNews(data.news),
     renderPublications(data.publications, meName),
     renderTimeline(data.education, "education", "Education"),
     renderTimeline(data.experience, "experience", "Experience"),
